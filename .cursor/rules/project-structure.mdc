@@ -1,0 +1,49 @@
+# Adobe Experience Platform React Native SDK - Project Structure
+
+This is a **Lerna monorepo** with **Yarn workspaces** for the Adobe Experience Platform React Native SDK.
+
+## 📁 Repository Structure
+
+- **`packages/`** - Individual SDK packages (core, edge, messaging, etc.)
+- **`apps/AEPSampleAppNewArchEnabled/`** - Expo-based sample app with New Architecture support
+- **`docs/`** - Documentation and development guides
+- **`tests/`** - Shared test utilities and configurations
+
+## 🔧 Monorepo Configuration
+
+- **Lerna**: Uses independent versioning strategy ([lerna.json](mdc:lerna.json))
+- **Yarn Workspaces**: Manages dependencies across packages ([package.json](mdc:package.json))
+- **TypeScript**: Strict configuration with React Native support ([tsconfig.json](mdc:tsconfig.json))
+
+## 📦 Package Structure Pattern
+
+Each SDK package follows this consistent structure:
+```
+packages/{name}/
+├── package.json           # Package configuration
+├── README.md             # Package documentation
+├── src/
+│   ├── index.ts          # Main exports
+│   ├── {Name}.ts         # Primary implementation
+│   └── models/           # TypeScript models/types
+├── __tests__/            # Jest test files
+├── android/              # Android native implementation
+│   ├── build.gradle
+│   └── src/main/
+├── ios/                  # iOS native implementation
+│   └── src/
+└── RCT{Name}.podspec     # iOS CocoaPods spec
+```
+
+## 🏗️ Build Commands
+
+- `yarn build` - Compile all packages with TypeScript
+- `yarn test` - Run Jest tests across packages
+- `yarn sampleappnewarchenabled:*` - Sample app commands
+
+## 🎯 Key Files
+
+- [package.json](mdc:package.json) - Root workspace configuration
+- [lerna.json](mdc:lerna.json) - Lerna monorepo settings
+- [tsconfig.json](mdc:tsconfig.json) - TypeScript configuration
+- [jest.config.js](mdc:jest.config.js) - Testing setup

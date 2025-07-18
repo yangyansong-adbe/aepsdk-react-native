@@ -1,0 +1,188 @@
+# Native Platform Development Guidelines
+
+## 🤖 Android Development
+
+### Project Structure
+```
+android/
+├── build.gradle              # Build configuration
+├── src/main/
+│   ├── AndroidManifest.xml   # Manifest file
+│   └── java/com/adobe/marketing/mobile/reactnative/
+│       └── {module}/         # Module implementation
+```
+
+### Build Configuration (`build.gradle`)
+```gradle
+android {
+    compileSdkVersion 34
+    buildToolsVersion "34.0.0"
+    namespace "com.adobe.marketing.mobile.reactnative.{module}"
+    
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 34
+    }
+}
+
+dependencies {
+    implementation "com.facebook.react:react-native:+"
+    implementation "com.adobe.marketing.mobile:{aep-module}:+"
+}
+```
+
+### Package Naming Convention
+- **Namespace**: `com.adobe.marketing.mobile.reactnative.{module}`
+- **Class naming**: `RCTAEP{ModuleName}`
+- **Consistent with iOS**: Match bridge method names
+
+### Java/Kotlin Patterns
+```java
+@ReactModule(name = RCTAEPModuleName.NAME)
+public class RCTAEPModuleName extends ReactContextBaseJavaModule {
+    public static final String NAME = "RCTAEPModuleName";
+    
+    @Override
+    public String getName() {
+        return NAME;
+    }
+    
+    @ReactMethod
+    public void methodName(String param, Promise promise) {
+        try {
+            // Call native AEP SDK
+            ModuleName.method(param, new AdobeCallback<Type>() {
+                @Override
+                public void call(Type result) {
+                    promise.resolve(convertToWritableMap(result));
+                }
+            });
+        } catch (Exception e) {
+            promise.reject("ERROR_CODE", e.getMessage(), e);
+        }
+    }
+}
+```
+
+## 🍎 iOS Development
+
+### Project Structure
+```
+ios/
+├── RCT{ModuleName}.xcodeproj/    # Xcode project
+├── src/
+│   ├── RCT{ModuleName}.h         # Header file
+│   ├── RCT{ModuleName}.m         # Implementation
+│   └── RCT{ModuleName}DataBridge.h  # Data bridge (if needed)
+└── RCT{ModuleName}.podspec       # CocoaPods specification
+```
+
+### CocoaPods Specification (`.podspec`)
+```ruby
+Pod::Spec.new do |s|
+  s.name         = "RCTAEPModuleName"
+  s.version      = "7.0.0"
+  s.summary      = "Adobe Experience Platform ModuleName extension for React Native apps"
+  s.homepage     = "https://github.com/adobe/aepsdk-react-native"
+  s.license      = "Apache 2.0 License"
+  s.author       = "Adobe Experience Platform SDK Team"
+  s.platform     = :ios, "12.0"
+  
+  s.source       = { :git => "https://github.com/adobe/aepsdk-react-native.git", :tag => "#{s.version}" }
+  s.source_files = "ios/src/**/*.{h,m,mm,swift}"
+  s.requires_arc = true
+  
+  s.dependency "React-Core"
+  s.dependency "AEPModuleName", "~> 5.0"
+end
+```
+
+### Objective-C Patterns
+```objc
+// RCTAEPModuleName.h
+#import <React/RCTBridgeModule.h>
+
+@interface RCTAEPModuleName : NSObject <RCTBridgeModule>
+@end
+
+// RCTAEPModuleName.m
+#import "RCTAEPModuleName.h"
+#import <React/RCTLog.h>
+@import AEPModuleName;
+
+@implementation RCTAEPModuleName
+
+RCT_EXPORT_MODULE(RCTAEPModuleName);
+
+RCT_EXPORT_METHOD(methodName:(NSString *)param
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    [AEPModuleName method:param completion:^(NSDictionary* result, NSError* error) {
+        if (error) {
+            reject(@"ERROR_CODE", [error localizedDescription], error);
+        } else {
+            resolve(result);
+        }
+    }];
+}
+
+@end
+```
+
+### Swift Integration
+```swift
+// For Swift files, use bridging headers
+// RCTAEPModuleName-Bridging-Header.h
+#import <React/RCTBridgeModule.h>
+#import <React/RCTEventEmitter.h>
+
+// RCTAEPModuleName.swift
+@objc(RCTAEPModuleName)
+class RCTAEPModuleName: NSObject {
+    @objc
+    static func requiresMainQueueSetup() -> Bool {
+        return false
+    }
+    
+    @objc
+    func methodName(_ param: String, 
+                   resolver resolve: @escaping RCTPromiseResolveBlock,
+                   rejecter reject: @escaping RCTPromiseRejectBlock) {
+        AEPModuleName.method(param: param) { result, error in
+            if let error = error {
+                reject("ERROR_CODE", error.localizedDescription, error)
+            } else {
+                resolve(result)
+            }
+        }
+    }
+}
+```
+
+## 🔧 Best Practices
+
+### Error Handling
+- **Consistent error codes** across platforms
+- **Meaningful error messages** for debugging
+- **Promise rejection** for async operations
+- **Null safety** checks
+
+### Data Conversion
+- **iOS**: Use `NSDictionary` / `NSArray` for complex data
+- **Android**: Use `WritableMap` / `WritableArray`
+- **Maintain consistency** between platform implementations
+
+### Performance
+- **Background threads**: Don't block main thread
+- **Memory management**: Proper cleanup of native objects
+- **Callback handling**: Ensure callbacks are called once
+
+### Testing
+- **Unit tests** for native modules when possible
+- **Integration tests** with sample app
+- **Platform-specific testing** on real devices
+
+## 📚 Documentation References
+- [React Native Native Modules](https://reactnative.dev/docs/native-modules-intro)
+- [Adobe Experience Platform SDK Documentation](https://developer.adobe.com/client-sdks/documentation/)
+- **Example implementations**: Check existing packages in [packages/](mdc:packages/)

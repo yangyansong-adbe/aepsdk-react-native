@@ -1,0 +1,92 @@
+# SDK Package Development Guidelines
+
+## 📦 Package Structure Requirements
+
+### Core Files (Required)
+- **`package.json`** - Must follow naming convention `@adobe/react-native-aep{name}`
+- **`README.md`** - Package-specific documentation
+- **`src/index.ts`** - Main exports file
+- **`src/{Name}.ts`** - Primary implementation
+- **`RCT{Name}.podspec`** - iOS CocoaPods specification
+
+### Package.json Standards
+```json
+{
+  "name": "@adobe/react-native-aep{name}",
+  "version": "7.0.0",
+  "description": "Adobe Experience Platform {description}",
+  "homepage": "https://developer.adobe.com/client-sdks/documentation/",
+  "license": "Apache-2.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts"
+}
+```
+
+## 🏗️ Implementation Patterns
+
+### Main Export Pattern (`src/index.ts`)
+```typescript
+// Always include Adobe license header
+import MainClass from './{Name}';
+import { Model1, Model2 } from './models/{Model}';
+
+export default MainClass;
+export { Model1, Model2 };
+export * from './models/Types';
+```
+
+### Native Module Pattern
+```typescript
+// Standard React Native module pattern
+import { NativeModules } from 'react-native';
+
+const { RCTAEPModuleName } = NativeModules;
+
+class ModuleName {
+  static async someMethod(param: string): Promise<Type> {
+    return RCTAEPModuleName.someMethod(param);
+  }
+}
+
+export default ModuleName;
+```
+
+## 🧪 Testing Requirements
+
+### Test Structure
+- Tests must be in `__tests__/` directory
+- Use naming pattern: `{Name}Tests.ts` or `{Name}.spec.ts`
+- Mock `NativeModules` in tests:
+
+```typescript
+import { NativeModules } from 'react-native';
+
+jest.mock('react-native', () => ({
+  NativeModules: {
+    RCTAEPModuleName: {
+      methodName: jest.fn(),
+    },
+  },
+}));
+```
+
+## 🎯 Native Platform Guidelines
+
+### Android (`android/`)
+- Follow Gradle build patterns from existing packages
+- Use consistent package naming: `com.adobe.marketing.mobile.reactnative`
+- Implement proper error handling
+
+### iOS (`ios/`)
+- Use Objective-C or Swift for implementation
+- Follow CocoaPods specification patterns
+- Implement proper bridge methods
+
+## 📋 Common Models Location
+Place shared models in `src/models/` directory:
+- Type definitions
+- Enums
+- Interfaces
+- Constants
+
+Example: [packages/core/src/models/](mdc:packages/core/src/models/)
