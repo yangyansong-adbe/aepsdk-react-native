@@ -54,6 +54,7 @@ export default function RootLayout() {
         <Drawer.Screen name="CoreView" options={{ title: 'CoreView' }} />
         <Drawer.Screen name="AssuranceView" options={{ title: 'AssuranceView' }} />
         <Drawer.Screen name="ConsentView" options={{ title: 'ConsentView' }} />
+        <Drawer.Screen name="ContentCardView" options={{ title: 'ContentCardView' }} />
         <Drawer.Screen name="EdgeBridgeView" options={{ title: 'EdgeBridgeView' }} />
         <Drawer.Screen name="EdgeView" options={{ title: 'EdgeView' }} />
         <Drawer.Screen name="EdgeIdentityView" options={{ title: 'EdgeIdentityView' }} />
