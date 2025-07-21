@@ -23,6 +23,9 @@ import { MessagingPropositionItem } from './models/MessagingPropositionItem';
 import { PersonalizationSchema } from './models/PersonalizationSchema';
 import { Activity, Characteristics } from './models/ScopeDetails';
 
+export * from './ContentProvider';
+export * from './ContentView';
+
 export {
   Activity,
   Characteristics,

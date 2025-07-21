@@ -17,8 +17,8 @@ import {Messaging, PersonalizationSchema} from '@adobe/react-native-aepmessaging
 import styles from '../styles/styles';
 import { useRouter } from 'expo-router';
 
-const SURFACES = ['android-cbe-preview', 'cbe/json', 'android-cc'];
-const SURFACES_WITH_CONTENT_CARDS = ['android-cc'];
+const SURFACES = ['android-cbe-preview', 'cbe/json', 'android-cc', 'cardstab'];
+const SURFACES_WITH_CONTENT_CARDS = ['cardstab'];
 
 const messagingExtensionVersion = async () => {
   const version = await Messaging.extensionVersion();

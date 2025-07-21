@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.AEPSampleAppNewArchEnabled"
+      "bundleIdentifier": "com.steveb.iamStagingTester"
     },
     "android": {
       "adaptiveIcon": {
