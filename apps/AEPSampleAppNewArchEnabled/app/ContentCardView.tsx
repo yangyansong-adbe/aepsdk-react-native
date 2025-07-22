@@ -115,11 +115,11 @@ const ContentCardView = () => {
       <ScrollView contentContainerStyle={{ marginRight: 20 }}>
         {selectedView === "SmallImage" && (
           <View>
-            <View style={{ height: 120 }}>
+            {/* <View style={{ height: 200 }}>
               {content?.map((item, idx) => (
                 <ContentView key={idx} data={item} />
               ))}
-            </View>
+            </View> */}
             <View>
               {content?.map((item, idx) => (
                 <ContentView
@@ -138,7 +138,7 @@ const ContentCardView = () => {
                 />
               ))}
             </View>
-            <View>
+            {/* <View>
               {content?.map((item, idx) => (
                 <ContentView
                   key={idx}
@@ -173,7 +173,7 @@ const ContentCardView = () => {
                   }}
                 />
               ))}
-            </View>
+            </View> */}
           </View>
         )}
 

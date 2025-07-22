@@ -1,13 +1,13 @@
 /*
-Copyright 2024 Adobe. All rights reserved.
-This file is licensed to you under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License. You may obtain a copy
-of the License at http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
-OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License.
+    Copyright 2025 Adobe. All rights reserved.
+    This file is licensed to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+    or agreed to in writing, software distributed under the License is
+    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF
+    ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License.
 */
 
 import { ContentCard } from './models/ContentCard';
@@ -37,15 +37,6 @@ export class ContentCardMappingManager {
             ContentCardMappingManager.instance = new ContentCardMappingManager();
         }
         return ContentCardMappingManager.instance;
-    }
-
-    /**
-     * Returns the mapping of content card ID to its corresponding content card and proposition objects.
-     * This map can be used to find the correct objects when tracking content card display or interaction.
-     * @returns Map<string, ContentCardMapping> The mapping of content card ID to content card and proposition objects
-     */
-    getContentCardMap(): Map<string, ContentCardMapping> {
-        return this.contentCardMap;
     }
 
     /**

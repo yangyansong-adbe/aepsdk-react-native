@@ -179,8 +179,8 @@ describe('convertSmallImageContentToComponent', () => {
             const result = convertSmallImageContentToComponent(data, styleOverrides);
 
             // Should have both default and override styles
-            const textContent = result.children![0].children![0].children![0];
-            const titleComponent = textContent.children![0];
+            const textContainer = result.children![0].children![0].children![0];
+            const titleComponent = textContainer.children![0];
             expect(titleComponent.style).toMatchObject({
                 fontSize: 24,
             });
@@ -297,9 +297,9 @@ describe('convertSmallImageContentToComponent', () => {
             expect(contentContainer.children).toHaveLength(2); // Text content + button container
 
             // Text content
-            const textContent = contentContainer.children![0];
-            expect(textContent.type).toBe('view');
-            expect(textContent.children).toHaveLength(2); // Title + body
+            const textContainer = contentContainer.children![0];
+            expect(textContainer.type).toBe('view');
+            expect(textContainer.children).toHaveLength(2); // Title + body
 
             // Button container
             const buttonContainer = contentContainer.children![1];

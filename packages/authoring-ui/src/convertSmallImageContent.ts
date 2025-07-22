@@ -1,5 +1,16 @@
-import { Component, ComponentType } from './Component';
-import { SmallImageContentData, SmallImageContentStyle } from './types';
+/*
+    Copyright 2025 Adobe. All rights reserved.
+    This file is licensed to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+    or agreed to in writing, software distributed under the License is
+    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF
+    ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License.
+*/
+import { Component, ComponentType } from './common/Component';
+import { SmallImageContentData, SmallImageContentStyle } from './SmallImageTypes';
 
 const styles = {
     card: {
@@ -20,14 +31,14 @@ const styles = {
     },
     container: {
         flexDirection: 'row',
-        minHeight: 120, // Match card minHeight
+        minHeight: 120,
     },
     imageContainer: {
         backgroundColor: '#f0f0f0',
         borderTopLeftRadius: 12,
         borderBottomLeftRadius: 12,
-        width: 120, // Changed to 25% of the container width
-        height: "100%", // Fill the entire height
+        width: "35%",
+        height: "100%",
     },
     image: {
         width: '100%',
@@ -40,7 +51,7 @@ const styles = {
         justifyContent: 'space-between',
         minHeight: 120, // Match card minHeight
     },
-    textContent: {
+    textContainer: {
         flex: 1,
         justifyContent: 'flex-start',
     },
@@ -92,7 +103,7 @@ export function convertSmallImageContentToComponent(
                     children: [
                         {
                             type: 'view' as ComponentType,
-                            style: mergedStyles.textContent,
+                            style: mergedStyles.textContainer,
                             children: [
                                 ...(data?.title?.content ? [{
                                     type: 'text' as ComponentType,

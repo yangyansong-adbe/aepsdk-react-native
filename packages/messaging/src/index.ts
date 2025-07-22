@@ -25,7 +25,6 @@ import { Activity, Characteristics } from './models/ScopeDetails';
 
 export * from './ContentProvider';
 export * from './ContentView';
-export * from './ContentCardMappingManager';
 
 export {
   Activity,

@@ -1,4 +1,6 @@
-# React Native Adobe Experience Platform Authoring UI Extension
+# React Native Adobe Experience Platform Authoring UI Library
+
+The Authoring UI library provides React Native components for creating and managing content cards. This package includes reusable UI components for content authoring workflows, making it easier to build applications that integrate with Adobe's Experience Platform.
 
 ## License
 

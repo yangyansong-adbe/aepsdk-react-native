@@ -1,3 +1,14 @@
+/*
+    Copyright 2025 Adobe. All rights reserved.
+    This file is licensed to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law
+    or agreed to in writing, software distributed under the License is
+    distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS OF
+    ANY KIND, either express or implied. See the License for the specific
+    language governing permissions and limitations under the License.
+*/
 import React from "react";
 import {
   View,
@@ -10,21 +21,18 @@ import {
   TouchableOpacity,
   useColorScheme,
 } from "react-native";
-
-// Define types for our JSON structure
+import { ContentViewEvent } from "./ContentViewEvent";
 import { Component } from "./Component";
 
 // Only attach event listeners for components with interactId
 const renderComponent = (
   component: Component,
-  onEvent?: (interactId: string, eventName: string) => void
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
 ): React.ReactElement | null => {
-  // console.log('component', component);
   const style = { ...component.style };
   const { interactId } = component;
 
-  // Unified event handler
-  const handlePress = (eventName: string) => {
+  const handlePress = (eventName: ContentViewEvent) => {
     if (interactId && onEvent) {
       onEvent(interactId, eventName);
     }
@@ -44,10 +52,7 @@ const renderComponent = (
 
     case "text":
       return (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => handlePress("press")}
-        >
+        <TouchableOpacity activeOpacity={0.7}>
           <Text style={style as TextStyle}>{component.content}</Text>
         </TouchableOpacity>
       );
@@ -72,7 +77,7 @@ const renderComponent = (
       return (
         <Button
           title={component.content || ""}
-          onPress={() => handlePress("press")}
+          onPress={() => handlePress("clickButton")}
         />
       );
 
@@ -139,7 +144,7 @@ const renderComponent = (
         <TouchableOpacity
           style={getDismissStyle()}
           activeOpacity={0.7}
-          onPress={() => handlePress("dismiss")}
+          onPress={() => handlePress("onDismiss")}
         >
           <Text style={getTextStyle()}>{"×"}</Text>
         </TouchableOpacity>
@@ -156,7 +161,7 @@ export const ContentView = ({
   onEvent,
 }: {
   obj: Component;
-  onEvent?: (interactId: string, eventName: string) => void;
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void;
 }) => {
   return renderComponent(obj, onEvent);
 };
