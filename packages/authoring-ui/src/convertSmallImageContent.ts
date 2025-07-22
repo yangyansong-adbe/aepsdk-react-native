@@ -127,7 +127,7 @@ export function convertSmallImageContentToComponent(
     if (data?.dismissBtn?.style && data.dismissBtn.style !== 'none') {
         children.push({
             type: 'dismissButton' as ComponentType,
-            interactId: 'dismiss', // Standard interactId for dismiss button
+            interactId: 'dismiss_button', // Standard interactId for dismiss button
             dismissType: data.dismissBtn.style,
         });
     }

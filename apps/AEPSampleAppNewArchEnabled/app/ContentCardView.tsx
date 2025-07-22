@@ -32,7 +32,7 @@ const ContentCardView = () => {
     // - Call above to update the propositions and cache the content locally
     // - Customers may call this function when launching the app
 
-    const provider = new ContentProvider("someSurface");
+    const provider = new ContentProvider("cardstab");
     provider
       .getContent()
       .then(setContent)

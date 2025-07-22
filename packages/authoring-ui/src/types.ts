@@ -1,28 +1,28 @@
 export interface SmallImageContentButton {
-    interactId: string;
-    actionUrl?: string;
-    id?: string;
-    text: {
-        content: string;
+    readonly interactId: string;
+    readonly actionUrl?: string;
+    readonly id?: string;
+    readonly text: {
+        readonly content: string;
     };
 }
 
 export interface SmallImageContentData {
-    image?: {
-        alt?: string;
-        url: string;
-        darkUrl?: string;
+    readonly image?: {
+        readonly alt?: string;
+        readonly url: string;
+        readonly darkUrl?: string;
     };
-    buttons?: SmallImageContentButton[];
-    dismissBtn?: {
-        style: "none" | "simple" | "circle";
+    readonly buttons?: readonly SmallImageContentButton[];
+    readonly dismissBtn?: {
+        readonly style: "none" | "simple" | "circle";
     };
-    actionUrl?: string;
-    body?: {
-        content: string;
+    readonly actionUrl?: string;
+    readonly body?: {
+        readonly content: string;
     };
-    title: {
-        content: string;
+    readonly title: {
+        readonly content: string;
     };
 }
 
