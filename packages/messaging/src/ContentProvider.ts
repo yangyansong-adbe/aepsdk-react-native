@@ -98,36 +98,5 @@ export class ContentProvider {
         }
 
         return list;
-        // return [{
-        //     type: TemplateType.SMALL_IMAGE,
-        //     smallImageData: SMALL_IMAGE_CONTENT
-        // }]
     }
 }
-
-// const SMALL_IMAGE_CONTENT: SmallImageContentData = {
-//     "image": {
-//         "alt": "",
-//         "url": "https://cdn-icons-png.flaticon.com/256/3303/3303838.png"
-//     },
-//     "buttons": [
-//         {
-//             "interactId": "downloadClicked",
-//             "actionUrl": "https://nba.com",
-//             "id": "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
-//             "text": {
-//                 "content": "Download App"
-//             }
-//         }
-//     ],
-//     "dismissBtn": {
-//         "style": "circle"
-//     },
-//     "actionUrl": "",
-//     "body": {
-//         "content": "Get live scores, real-time updates, and exclusive content right at your fingertips."
-//     },
-//     "title": {
-//         "content": "Stay connected to all the action"
-//     }
-// }
