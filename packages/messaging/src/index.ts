@@ -23,6 +23,7 @@ import { MessagingPropositionItem } from './models/MessagingPropositionItem';
 import { PersonalizationSchema } from './models/PersonalizationSchema';
 import { Activity, Characteristics } from './models/ScopeDetails';
 
+export { SmallImageContentData } from "@adobe/react-native-aepui";
 export * from './ContentProvider';
 export * from './ContentView';
 

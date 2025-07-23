@@ -18,6 +18,7 @@ import {
   ContentView,
 } from "@adobe/react-native-aepmessaging";
 import { useEffect } from "react";
+import { TemplateType } from "@adobe/react-native-aepmessaging";
 
 const ContentCardView = () => {
   const [content, setContent] = useState<ContentTemplate[] | null>(null);
@@ -25,6 +26,14 @@ const ContentCardView = () => {
   const [showPicker, setShowPicker] = useState<boolean>(false);
 
   const viewOptions = ["SmallImage", "LargeImage", "ImageOnly"];
+
+  const renderStyledText = (text: string) => {
+    return (
+      <Text style={{ color: "blue", textAlign: "center", fontSize: 20 }}>
+        {text}
+      </Text>
+    );
+  };
 
   useEffect(() => {
     // Messaging.updatePropositionsForSurfaces(['someSurface']);
@@ -121,7 +130,7 @@ const ContentCardView = () => {
                 <ContentView key={idx} data={item} />
               ))}
             </View> */}
-            <View>
+            {/* <View>
               {content?.map((item, idx) => (
                 <View key={idx} style={{ height: 180 }}>
                   <ContentView
@@ -144,7 +153,7 @@ const ContentCardView = () => {
                   />
                 </View>
               ))}
-            </View>
+            </View> */}
             {/* <View>
               {content?.map((item, idx) => (
                 <ContentView
@@ -181,6 +190,124 @@ const ContentCardView = () => {
                 />
               ))}
             </View> */}
+            <View>
+              {renderStyledText("basic")}
+              <ContentView key="1" data={SMALL_IMAGE_CONTENT_ALL_FIELDS} />
+              {renderStyledText("No dismiss button")}
+              <ContentView
+                key="11"
+                data={SMALL_IMAGE_CONTENT_NO_DISMISS_BUTTON}
+              />
+              {renderStyledText("Invalid image")}
+              <ContentView key="2" data={SMALL_IMAGE_CONTENT_INVALID_IMAGE} />
+              {renderStyledText("image (darkUrl)")}
+              <ContentView key="3" data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL} />
+              {renderStyledText("title (2 lines), body (4 lines)")}
+              <ContentView
+                key="4"
+                data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+                styleOverrides={{
+                  smallImageStyle: {
+                    title: {
+                      numberOfLines: 2,
+                    },
+                    body: {
+                      numberOfLines: 4,
+                    },
+                  },
+                }}
+                listener={(event, identifier) => {
+                  console.log("Event triggered:", event, identifier);
+                }}
+              />
+              {renderStyledText("3 buttons")}
+              <ContentView key="5" data={SMALL_IMAGE_CONTENT_3_BUTTONS} />
+              {renderStyledText("height (150) title (1 line), body (1 line)")}
+              <View style={{ height: 150 }}>
+                <ContentView
+                  key="6"
+                  data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+                  styleOverrides={{
+                    smallImageStyle: {
+                      title: {
+                        numberOfLines: 1,
+                      },
+                      body: {
+                        numberOfLines: 1,
+                      },
+                    },
+                  }}
+                />
+              </View>
+              {renderStyledText("image width (50%)")}
+              <View style={{ height: 200 }}>
+                <ContentView
+                  key="6"
+                  data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+                  styleOverrides={{
+                    smallImageStyle: {
+                      title: {
+                        numberOfLines: 1,
+                      },
+                      body: {
+                        numberOfLines: 4,
+                      },
+                      imageContainer: {
+                        width: "50%",
+                      },
+                    },
+                  }}
+                />
+              </View>
+
+              {renderStyledText(
+                "No button, image width (40%), title (2 lines), body (6 lines), height (180)"
+              )}
+              <View style={{ height: 180 }}>
+                <ContentView
+                  key="7"
+                  data={SMALL_IMAGE_CONTENT_NO_BUTTON}
+                  styleOverrides={{
+                    smallImageStyle: {
+                      title: {
+                        numberOfLines: 2,
+                      },
+                      body: {
+                        numberOfLines: 6,
+                      },
+                      imageContainer: {
+                        width: "40%",
+                      },
+                    },
+                  }}
+                />
+              </View>
+              {renderStyledText("No button, image (right aligned)")}
+              <View style={{ height: 180 }}>
+                <ContentView
+                  key="8"
+                  data={SMALL_IMAGE_CONTENT_NO_BUTTON}
+                  styleOverrides={{
+                    smallImageStyle: {
+                      title: {
+                        numberOfLines: 2,
+                      },
+                      body: {
+                        numberOfLines: 6,
+                      },
+                      container: {
+                        flexDirection: "row-reverse",
+                      },
+                      imageContainer: {
+                        width: "40%",
+                      },
+                    },
+                  }}
+                />
+              </View>
+
+              <View style={{ height: 200 }} />
+            </View>
           </View>
         )}
 
@@ -277,3 +404,209 @@ const ContentCardView = () => {
 };
 
 export default ContentCardView;
+
+const SMALL_IMAGE_CONTENT_ALL_FIELDS: ContentTemplate = {
+  id: "small-image-all-fields",
+  type: TemplateType.SMALL_IMAGE,
+  smallImageData: {
+    image: {
+      alt: "",
+      url: "https://cdn-icons-png.flaticon.com/256/3303/3303838.png",
+      darkUrl: "https://cdn-icons-png.flaticon.com/256/3303/3303838.png",
+    },
+    buttons: [
+      {
+        interactId: "downloadClicked",
+        actionUrl: "https://nba.com",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        text: {
+          content: "Download App",
+        },
+      },
+      {
+        interactId: "OK",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        text: {
+          content: "OK",
+        },
+      },
+    ],
+    dismissBtn: {
+      style: "circle",
+    },
+    actionUrl: "",
+    body: {
+      content:
+        "Get live scores, real-time updates, and exclusive content right at your fingertips.",
+    },
+    title: {
+      content: "Stay connected to all the action",
+    },
+  },
+};
+const SMALL_IMAGE_CONTENT_NO_DISMISS_BUTTON: ContentTemplate = {
+  id: "small-image-all-fields",
+  type: TemplateType.SMALL_IMAGE,
+  smallImageData: {
+    image: {
+      alt: "",
+      url: "https://cdn-icons-png.flaticon.com/256/3303/3303838.png",
+      darkUrl: "https://cdn-icons-png.flaticon.com/256/3303/3303838.png",
+    },
+    buttons: [
+      {
+        interactId: "downloadClicked",
+        actionUrl: "https://nba.com",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        text: {
+          content: "Download App",
+        },
+      },
+    ],
+    actionUrl: "",
+    body: {
+      content:
+        "Get live scores, real-time updates, and exclusive content right at your fingertips.",
+    },
+    title: {
+      content: "Stay connected to all the action",
+    },
+  },
+};
+
+const SMALL_IMAGE_CONTENT_INVALID_IMAGE: ContentTemplate = {
+  id: "small-image-invalid-image",
+  type: TemplateType.SMALL_IMAGE,
+  smallImageData: {
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    title: {
+      content: "Get Ready for the Basketball Season Kickoff!",
+    },
+    buttons: [
+      {
+        interactId: "buy",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        actionUrl: "https://nba.com",
+        text: {
+          content: "Get Season Pass",
+        },
+      },
+    ],
+    actionUrl: "",
+    dismissBtn: {
+      style: "circle",
+    },
+    image: {
+      darkUrl:
+        "https://static-00.iconduck.com/assets.00/basketball-icon-256x256-vydm63md.png",
+      alt: "",
+      url: "https://static-00.iconduck.com/assets.00/basketball-icon-256x256-vydm63md.png",
+    },
+  },
+};
+
+const SMALL_IMAGE_CONTENT_IMAGE_DARK_URL: ContentTemplate = {
+  id: "small-image-invalid-image",
+  type: TemplateType.SMALL_IMAGE,
+  smallImageData: {
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    title: {
+      content: "Get Ready for the Basketball Season Kickoff!",
+    },
+    buttons: [
+      {
+        interactId: "buy",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        actionUrl: "https://nba.com",
+        text: {
+          content: "Get Season Pass",
+        },
+      },
+    ],
+    actionUrl: "",
+    dismissBtn: {
+      style: "circle",
+    },
+    image: {
+      darkUrl:
+        "https://hips.hearstapps.com/hmg-prod/images/golden-retriever-dog-royalty-free-image-505534037-1565105327.jpg?crop=0.760xw:1.00xh;0.204xw,0&resize=980:*",
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+    },
+  },
+};
+const SMALL_IMAGE_CONTENT_3_BUTTONS: ContentTemplate = {
+  id: "small-image-invalid-image",
+  type: TemplateType.SMALL_IMAGE,
+  smallImageData: {
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    title: {
+      content: "Get Ready for the Basketball Season Kickoff!",
+    },
+    buttons: [
+      {
+        interactId: "buy",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        actionUrl: "https://nba.com",
+        text: {
+          content: "Buy",
+        },
+      },
+      {
+        interactId: "ok",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        actionUrl: "https://nba.com",
+        text: {
+          content: "OK",
+        },
+      },
+      {
+        interactId: "more",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        actionUrl: "https://nba.com",
+        text: {
+          content: "More",
+        },
+      },
+    ],
+    actionUrl: "",
+    dismissBtn: {
+      style: "circle",
+    },
+    image: {
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+    },
+  },
+};
+const SMALL_IMAGE_CONTENT_NO_BUTTON: ContentTemplate = {
+  id: "small-image-invalid-image",
+  type: TemplateType.SMALL_IMAGE,
+  smallImageData: {
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    title: {
+      content: "Get Ready for the Basketball Season Kickoff!",
+    },
+    buttons: [],
+    actionUrl: "",
+    dismissBtn: {
+      style: "circle",
+    },
+    image: {
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+    },
+  },
+};

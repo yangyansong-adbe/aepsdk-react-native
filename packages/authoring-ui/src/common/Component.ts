@@ -35,6 +35,7 @@ export interface Component {
     // Image properties
     url?: string;
     darkUrl?: string;
+    actionUrl?: string;
     alt?: string;
     resizeMode?: 'cover' | 'contain' | 'stretch' | 'center' | 'repeat';
     // Dismiss button properties

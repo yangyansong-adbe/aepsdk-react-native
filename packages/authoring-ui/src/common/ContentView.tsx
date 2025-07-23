@@ -17,6 +17,7 @@ import {
   Button,
   TouchableOpacity,
   useColorScheme,
+  Linking,
 } from "react-native";
 import { ContentViewEvent } from "./ContentViewEvent";
 import { Component, ComponentTextStyle } from "./Component";
@@ -168,11 +169,24 @@ const renderComponent = (
       );
 
     case "button":
+      const handleButtonPress = async () => {
+        handlePress("clickButton");
+
+        if (component.actionUrl) {
+          try {
+            await Linking.openURL(component.actionUrl);
+          } catch (error) {
+            // TODO: add a utility function to handle SDK logs.
+            console.warn(`Failed to open URL: ${component.actionUrl}`, error);
+          }
+        }
+      };
+
       return (
         <Button
           title={component.content || ""}
           color="#007AFF"
-          onPress={() => handlePress("clickButton")}
+          onPress={handleButtonPress}
         />
       );
 
