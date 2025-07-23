@@ -343,46 +343,9 @@ const ContentCardView = () => {
         )}
 
         {selectedView === "LargeImage" && (
-          <View
-            style={{
-              padding: 20,
-              backgroundColor: "#f8f9fa",
-              borderRadius: 10,
-              marginBottom: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-                color: "#2c3e50",
-                marginBottom: 10,
-              }}
-            >
-              Large Image View
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: "#7f8c8d",
-                lineHeight: 24,
-              }}
-            >
-              This is the Large Image content view. Here you can display large
-              image content cards with enhanced visual presentation and detailed
-              information.
-            </Text>
-            <Text
-              style={{
-                fontSize: 14,
-                color: "#95a5a6",
-                marginTop: 15,
-                fontStyle: "italic",
-              }}
-            >
-              Large image cards typically feature prominent imagery with
-              supporting text and call-to-action buttons.
-            </Text>
+          <View>
+            {renderStyledText("basic")}
+            <ContentView key="1" data={LARGE_IMAGE_CONTENT_ALL_FIELDS} />
           </View>
         )}
 
@@ -638,6 +601,38 @@ const SMALL_IMAGE_CONTENT_NO_BUTTON: ContentTemplate = {
     image: {
       alt: "",
       url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+    },
+  },
+};
+
+const LARGE_IMAGE_CONTENT_ALL_FIELDS: ContentTemplate = {
+  id: "large-image-all-fields",
+  type: TemplateType.LARGE_IMAGE,
+  largeImageData: {
+    actionUrl: "https://cardaction.com",
+    body: {
+      content: "This is large image body",
+    },
+    buttons: [
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        actionUrl: "https://buttonone.com/action",
+        interactId: "buttonOneClicked",
+        text: {
+          content: "ButtonTextOne",
+        },
+      },
+    ],
+    image: {
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+      darkUrl: "https://imageurl.com/dark",
+    },
+    dismissBtn: {
+      style: "simple",
+    },
+    title: {
+      content: "This is large image title",
     },
   },
 };

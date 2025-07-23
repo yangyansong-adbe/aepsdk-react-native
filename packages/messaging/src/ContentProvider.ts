@@ -9,7 +9,7 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
-import { SmallImageContentData } from "@adobe/react-native-aepui";
+import { SmallImageContentData, LargeImageContentData } from "@adobe/react-native-aepui";
 import Messaging from "./Messaging";
 import { PersonalizationSchema } from "./models/PersonalizationSchema";
 import { ContentCard } from "./models/ContentCard";
@@ -25,9 +25,6 @@ export enum TemplateType {
     IMAGE_ONLY = "ImageOnly"
 }
 
-interface LargeImageContentData {
-
-}
 interface ImageOnlyData {
 }
 
