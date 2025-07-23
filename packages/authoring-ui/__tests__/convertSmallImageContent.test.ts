@@ -1,6 +1,5 @@
 import { convertSmallImageContentToComponent } from '../src/convertSmallImageContent';
-import { SmallImageContentData, SmallImageContentStyle } from '../src/types';
-import { Component } from '../src/Component';
+import { SmallImageContentData, SmallImageContentStyle } from '../src/SmallImageTypes';
 
 describe('convertSmallImageContentToComponent', () => {
     describe('Basic functionality', () => {
@@ -102,7 +101,7 @@ describe('convertSmallImageContentToComponent', () => {
             const dismissButton = result.children![1];
             expect(dismissButton.type).toBe('dismissButton');
             expect(dismissButton.dismissType).toBe('simple');
-            expect(dismissButton.interactId).toBe('dismiss');
+            expect(dismissButton.interactId).toBe('dismiss_button');
         });
 
         it('includes dismiss button when dismissType is circle', () => {
@@ -228,8 +227,12 @@ describe('convertSmallImageContentToComponent', () => {
     });
 
     describe('Edge cases', () => {
-        it('handles undefined data', () => {
-            const result = convertSmallImageContentToComponent(undefined);
+        it('handles data with empty title content', () => {
+            const data: SmallImageContentData = {
+                title: { content: '' }, // Empty title content
+            };
+
+            const result = convertSmallImageContentToComponent(data);
 
             expect(result.type).toBe('view');
             expect(result.children).toBeDefined();

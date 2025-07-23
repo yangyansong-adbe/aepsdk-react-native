@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Adobe. All rights reserved.
+Copyright 2025 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -33,13 +33,13 @@ describe('ContentCardMappingManager', () => {
         });
     });
 
-    describe('getContentCardMap', () => {
-        it('should return empty map initially', () => {
-            const map = mappingManager.getContentCardMap();
-            expect(map.size).toBe(0);
+    describe('mapping management', () => {
+        it('should have no mappings initially', () => {
+            expect(mappingManager.getMappingCount()).toBe(0);
+            expect(mappingManager.getAllContentCardIds()).toEqual([]);
         });
 
-        it('should return populated map after adding mappings', () => {
+        it('should track mappings after adding them', () => {
             const mockContentCard: ContentCard = {
                 id: 'test-content-card-id',
                 data: {
@@ -78,9 +78,9 @@ describe('ContentCardMappingManager', () => {
 
             mappingManager.addMapping('test-content-card-id', mockContentCard, mockProposition);
 
-            const map = mappingManager.getContentCardMap();
-            expect(map.size).toBe(1);
-            expect(map.has('test-content-card-id')).toBe(true);
+            expect(mappingManager.getMappingCount()).toBe(1);
+            expect(mappingManager.hasMapping('test-content-card-id')).toBe(true);
+            expect(mappingManager.getAllContentCardIds()).toContain('test-content-card-id');
         });
     });
 

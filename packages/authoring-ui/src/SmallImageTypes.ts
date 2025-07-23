@@ -9,6 +9,8 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
+import { ViewStyle, ImageStyle } from "react-native";
+import { ComponentTextStyle } from "./common/Component";
 
 export interface SmallImageContentButton {
     readonly interactId: string;
@@ -20,6 +22,8 @@ export interface SmallImageContentButton {
 }
 
 export interface SmallImageContentData {
+    // TODO: should the image url always be required??
+    // If not, we need to think about how to render the content card without an image
     readonly image?: {
         readonly alt?: string;
         readonly url: string;
@@ -39,47 +43,13 @@ export interface SmallImageContentData {
 }
 
 export interface SmallImageContentStyle {
-    card?: {
-        backgroundColor?: string;
-        borderRadius?: number;
-        margin?: number;
-        shadowColor?: string;
-        shadowOffsetWidth?: number;
-        shadowOffsetHeight?: number;
-    }
-    container?: {
-        flexDirection?: string;
-        minHeight?: number;
-    }
-    imageContainer?: {
-        backgroundColor?: string;
-    }
-    image?: {
-        width?: number;
-        height?: number;
-        resizeMode?: string;
-    }
-    contentContainer?: {
-        flex?: number;
-        padding?: number;
-    }
-    textContainer?: {
-        flex?: number;
-        justifyContent?: string;
-    }
-    buttonContainer?: {
-        flexDirection?: string;
-        gap?: number;
-        justifyContent?: string;
-        marginTop?: number;
-    }
-    title?: {
-        fontSize?: number;
-        color?: string;
-    }
-    body?: {
-        fontSize?: number;
-        color?: string;
-        lineHeight?: number;
-    }
+    card?: Partial<ViewStyle>;
+    container?: Partial<ViewStyle>;
+    imageContainer?: Partial<ViewStyle>;
+    image?: Partial<ImageStyle>;
+    contentContainer?: Partial<ViewStyle>;
+    textContent?: Partial<ViewStyle>;
+    title?: Partial<ComponentTextStyle>;
+    body?: Partial<ComponentTextStyle>;
+    buttonContainer?: Partial<ViewStyle>;
 }

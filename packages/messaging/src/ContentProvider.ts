@@ -68,6 +68,10 @@ export class ContentProvider {
  */
     async getContent(): Promise<ContentTemplate[]> {
         console.log(this.surface);
+
+        // Clear previous mappings before adding new ones
+        this.mappingManager.clearMappings();
+
         const messages = await Messaging.getPropositionsForSurfaces([this.surface]);
         console.log(messages);
         const propositions = messages[this.surface];

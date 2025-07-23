@@ -32,6 +32,7 @@ const ContentCardView = () => {
     // - Call above to update the propositions and cache the content locally
     // - Customers may call this function when launching the app
 
+    // const provider = new ContentProvider("card/ms");
     const provider = new ContentProvider("cardstab");
     provider
       .getContent()
@@ -122,20 +123,26 @@ const ContentCardView = () => {
             </View> */}
             <View>
               {content?.map((item, idx) => (
-                <ContentView
-                  key={idx}
-                  data={item}
-                  styleOverrides={{
-                    smallImageStyle: {
-                      title: {
-                        color: "#8e44ad",
+                <View key={idx} style={{ height: 180 }}>
+                  <ContentView
+                    key={idx}
+                    data={item}
+                    styleOverrides={{
+                      smallImageStyle: {
+                        title: {
+                          numberOfLines: 1,
+                          color: "#8e44ad",
+                        },
+                        body: {
+                          numberOfLines: 4,
+                        },
                       },
-                    },
-                  }}
-                  listener={(event, identifier) => {
-                    console.log("Event triggered:", event, identifier);
-                  }}
-                />
+                    }}
+                    listener={(event, identifier) => {
+                      console.log("Event triggered:", event, identifier);
+                    }}
+                  />
+                </View>
               ))}
             </View>
             {/* <View>

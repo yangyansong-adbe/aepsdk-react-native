@@ -24,6 +24,12 @@ export interface SmallImageContentProps {
   listener?: (interactId: string, eventName: ContentViewEvent) => void;
 }
 
+/**
+ * Renders a small image card component.
+ *
+ * @param props - an object of type [SmallImageContentProps], which contains the properties for the small image card component.
+ * @returns The rendered small image card component.
+ */
 export const SmallImageContent: React.FC<SmallImageContentProps> = (
   props: SmallImageContentProps
 ) => {

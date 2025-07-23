@@ -9,36 +9,49 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
-import { Component, ComponentType } from './common/Component';
+import { Component, ComponentType, ComponentTextStyle } from './common/Component';
 import { SmallImageContentData, SmallImageContentStyle } from './SmallImageTypes';
+import { ViewStyle, ImageStyle } from 'react-native';
 
-const styles = {
+const DISMISS_BUTTON_INTERACT_ID = 'dismiss_button';
+
+interface StyleObject extends SmallImageContentStyle {
+    card: ViewStyle;
+    container: ViewStyle;
+    imageContainer: ViewStyle;
+    image: ImageStyle;
+    contentContainer: ViewStyle;
+    textContent: ViewStyle;
+    buttonContainer: ViewStyle;
+    title: ComponentTextStyle;
+    body: ComponentTextStyle;
+}
+
+const styles: StyleObject = {
     card: {
         backgroundColor: '#ffffff',
         borderRadius: 12,
         overflow: 'hidden',
         margin: 15,
         shadowColor: '#000',
-        shadowOffsetWidth: 0, // flattened
-        shadowOffsetHeight: 2, // flattened
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
         position: 'relative', // Added for dismiss button positioning
         minHeight: 120, // Add minimum height for the card
-        maxHeight: 160,
+        maxHeight: 200,
         width: '100%', // Ensure card takes full width
     },
     container: {
         flexDirection: 'row',
-        minHeight: 120,
+        minHeight: 120, // Match card minHeight
     },
     imageContainer: {
         backgroundColor: '#f0f0f0',
         borderTopLeftRadius: 12,
         borderBottomLeftRadius: 12,
-        width: "35%",
-        height: "100%",
+        width: 120, // Changed to 25% of the container width
+        height: "100%", // Fill the entire height
     },
     image: {
         width: '100%',
@@ -51,42 +64,62 @@ const styles = {
         justifyContent: 'space-between',
         minHeight: 120, // Match card minHeight
     },
-    textContainer: {
+    textContent: {
         flex: 1,
         justifyContent: 'flex-start',
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        gap: 8,
-        justifyContent: 'flex-end', // Changed from 'flex-start' to 'flex-end' for right alignment
-        marginTop: 12,
     },
     title: {
         fontSize: 16,
         fontWeight: '600',
         color: '#000000',
         marginBottom: 8,
+        numberOfLines: 1,
+        adjustsFontSizeToFit: true,
     },
     body: {
         fontSize: 14,
         color: '#666666',
-        lineHeight: 20,
+        lineHeight: 18,
+        numberOfLines: 3,
+        adjustsFontSizeToFit: true,
     },
+    buttonContainer: {
+        flexDirection: 'row',
+        // gap: 8,
+        justifyContent: 'flex-end', // Changed from 'flex-start' to 'flex-end' for right alignment
+        marginTop: 12,
+    },
+
 };
 
+function mergeStyles(defaultStyles: StyleObject, overrides?: SmallImageContentStyle): StyleObject {
+    if (!overrides) return defaultStyles;
+
+    return {
+        card: { ...defaultStyles.card, ...overrides.card },
+        container: { ...defaultStyles.container, ...overrides.container },
+        imageContainer: { ...defaultStyles.imageContainer, ...overrides.imageContainer },
+        image: { ...defaultStyles.image, ...overrides.image },
+        contentContainer: { ...defaultStyles.contentContainer, ...overrides.contentContainer },
+        textContent: { ...defaultStyles.textContent, ...overrides.textContent },
+        buttonContainer: { ...defaultStyles.buttonContainer, ...overrides.buttonContainer },
+        title: { ...defaultStyles.title, ...overrides.title },
+        body: { ...defaultStyles.body, ...overrides.body },
+    };
+}
+
 export function convertSmallImageContentToComponent(
-    data?: SmallImageContentData,
+    data: SmallImageContentData,
     styleOverrides?: SmallImageContentStyle
 ): Component {
-    // Shallow merge default styles with overrides
-    const mergedStyles = { ...styles, ...styleOverrides };
+    const mergedStyles = mergeStyles(styles, styleOverrides);
 
     const children: Component[] = [
         {
             type: 'view',
             style: mergedStyles.container,
             children: [
-                ...(data?.image?.url ? [{
+                ...(data.image?.url ? [{
                     type: 'view' as ComponentType,
                     style: mergedStyles.imageContainer,
                     children: [{
@@ -103,21 +136,21 @@ export function convertSmallImageContentToComponent(
                     children: [
                         {
                             type: 'view' as ComponentType,
-                            style: mergedStyles.textContainer,
+                            style: mergedStyles.textContent,
                             children: [
-                                ...(data?.title?.content ? [{
+                                ...(data.title?.content ? [{
                                     type: 'text' as ComponentType,
                                     style: mergedStyles.title,
                                     content: data.title.content,
                                 }] : []),
-                                ...(data?.body?.content ? [{
+                                ...(data.body?.content ? [{
                                     type: 'text' as ComponentType,
                                     style: mergedStyles.body,
                                     content: data.body.content,
                                 }] : []),
                             ],
                         },
-                        ...(Array.isArray(data?.buttons) && data.buttons.length > 0 ? [{
+                        ...(Array.isArray(data.buttons) && data.buttons.length > 0 ? [{
                             type: 'view' as ComponentType,
                             style: mergedStyles.buttonContainer,
                             children: data.buttons.map(btn => ({
@@ -125,7 +158,7 @@ export function convertSmallImageContentToComponent(
                                 interactId: btn.interactId,
                                 actionUrl: btn.actionUrl,
                                 id: btn.id,
-                                content: btn.text.content, // Changed from text to content
+                                content: btn.text.content,
                             })),
                         }] : []),
                     ],
@@ -135,10 +168,10 @@ export function convertSmallImageContentToComponent(
     ];
 
     // Add dismiss button if present and style is not 'none'
-    if (data?.dismissBtn?.style && data.dismissBtn.style !== 'none') {
+    if (data.dismissBtn?.style && data.dismissBtn.style !== 'none') {
         children.push({
             type: 'dismissButton' as ComponentType,
-            interactId: 'dismiss_button', // Standard interactId for dismiss button
+            interactId: DISMISS_BUTTON_INTERACT_ID,
             dismissType: data.dismissBtn.style,
         });
     }

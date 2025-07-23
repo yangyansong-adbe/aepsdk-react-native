@@ -12,3 +12,4 @@
 export * from './SmallImageTypes';
 export * from './SmallImageCard';
 export * from './common/ContentViewEvent';
+export * from './common/Component';

@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Adobe. All rights reserved.
+Copyright 2025 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -34,8 +34,8 @@ describe('ContentProvider', () => {
 
     describe('getContentCardMap', () => {
         it('should return empty map initially', () => {
-            const map = contentProvider.getContentCardMap();
-            expect(map.size).toBe(0);
+            const mappingCount = mappingManager.getMappingCount();
+            expect(mappingCount).toBe(0);
         });
 
         it('should populate map after getContent is called', async () => {
@@ -86,11 +86,11 @@ describe('ContentProvider', () => {
             await contentProvider.getContent();
 
             // Verify the map is populated
-            const map = contentProvider.getContentCardMap();
-            expect(map.size).toBe(1);
-            expect(map.has('test-content-card-id')).toBe(true);
+            const mappingCount = mappingManager.getMappingCount();
+            expect(mappingCount).toBe(1);
+            expect(mappingManager.hasMapping('test-content-card-id')).toBe(true);
 
-            const mapping = map.get('test-content-card-id');
+            const mapping = mappingManager.getContentCardMapping('test-content-card-id');
             expect(mapping).toBeDefined();
             expect(mapping?.contentCard).toEqual(mockContentCard);
             expect(mapping?.proposition).toEqual(mockProposition);
@@ -99,7 +99,7 @@ describe('ContentProvider', () => {
 
     describe('getContentCardMapping', () => {
         it('should return undefined for non-existent content card ID', () => {
-            const mapping = contentProvider.getContentCardMapping('non-existent-id');
+            const mapping = mappingManager.getContentCardMapping('non-existent-id');
             expect(mapping).toBeUndefined();
         });
 
@@ -151,7 +151,7 @@ describe('ContentProvider', () => {
             await contentProvider.getContent();
 
             // Get the mapping for the content card ID
-            const mapping = contentProvider.getContentCardMapping('test-content-card-id');
+            const mapping = mappingManager.getContentCardMapping('test-content-card-id');
             expect(mapping).toBeDefined();
             expect(mapping?.contentCard).toEqual(mockContentCard);
             expect(mapping?.proposition).toEqual(mockProposition);
@@ -212,9 +212,9 @@ describe('ContentProvider', () => {
             expect(contentTemplates[0].type).toBe(TemplateType.SMALL_IMAGE);
 
             // Verify the map is populated
-            const map = contentProvider.getContentCardMap();
-            expect(map.size).toBe(1);
-            expect(map.has('test-content-card-id')).toBe(true);
+            const mappingCount = mappingManager.getMappingCount();
+            expect(mappingCount).toBe(1);
+            expect(mappingManager.hasMapping('test-content-card-id')).toBe(true);
         });
 
         it('should clear previous map when getContent is called again', async () => {
@@ -265,9 +265,9 @@ describe('ContentProvider', () => {
             await contentProvider.getContent();
 
             // Verify the map has the first content card
-            let map = contentProvider.getContentCardMap();
-            expect(map.size).toBe(1);
-            expect(map.has('test-content-card-id-1')).toBe(true);
+            let mappingCount = mappingManager.getMappingCount();
+            expect(mappingCount).toBe(1);
+            expect(mappingManager.hasMapping('test-content-card-id-1')).toBe(true);
 
             // Mock the getPropositionsForSurfaces response for second call
             const mockContentCard2: ContentCard = {
@@ -316,10 +316,10 @@ describe('ContentProvider', () => {
             await contentProvider.getContent();
 
             // Verify the map now has only the second content card (previous one was cleared)
-            map = contentProvider.getContentCardMap();
-            expect(map.size).toBe(1);
-            expect(map.has('test-content-card-id-1')).toBe(false);
-            expect(map.has('test-content-card-id-2')).toBe(true);
+            mappingCount = mappingManager.getMappingCount();
+            expect(mappingCount).toBe(1);
+            expect(mappingManager.hasMapping('test-content-card-id-1')).toBe(false);
+            expect(mappingManager.hasMapping('test-content-card-id-2')).toBe(true);
         });
     });
 }); 

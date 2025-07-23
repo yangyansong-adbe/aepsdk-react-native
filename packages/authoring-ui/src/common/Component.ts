@@ -9,14 +9,20 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
+import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
+
 export type ComponentType = 'view' | 'text' | 'image' | 'button' | 'dismissButton';
 
-export interface ComponentStyle {
-    [key: string]: string | number | boolean;
+// Union type for all possible component styles
+export type ComponentStyle = ViewStyle | ComponentTextStyle | ImageStyle;
+
+export type ComponentTextStyle = TextStyle & {
+    numberOfLines?: number;
+    adjustsFontSizeToFit?: boolean;
 }
 
 export interface Component {
-    type?: ComponentType;
+    type: ComponentType;
     style?: ComponentStyle;
     id?: string;
     name?: string;
