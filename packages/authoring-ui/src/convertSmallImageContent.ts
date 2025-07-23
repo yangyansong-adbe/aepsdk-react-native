@@ -50,7 +50,7 @@ const styles: StyleObject = {
         backgroundColor: '#f0f0f0',
         borderTopLeftRadius: 12,
         borderBottomLeftRadius: 12,
-        width: 120, // Changed to 25% of the container width
+        width: "35%",
         height: "100%", // Fill the entire height
     },
     image: {

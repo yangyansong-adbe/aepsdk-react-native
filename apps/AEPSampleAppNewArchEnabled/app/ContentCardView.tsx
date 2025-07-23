@@ -19,11 +19,13 @@ import {
 } from "@adobe/react-native-aepmessaging";
 import { useEffect } from "react";
 import { TemplateType } from "@adobe/react-native-aepmessaging";
+import { useColorScheme } from "../hooks/useColorScheme";
 
 const ContentCardView = () => {
   const [content, setContent] = useState<ContentTemplate[] | null>(null);
   const [selectedView, setSelectedView] = useState<string>("SmallImage");
   const [showPicker, setShowPicker] = useState<boolean>(false);
+  const colorScheme = useColorScheme();
 
   const viewOptions = ["SmallImage", "LargeImage", "ImageOnly"];
 
@@ -305,6 +307,35 @@ const ContentCardView = () => {
                   }}
                 />
               </View>
+
+              {renderStyledText("dark mode (dark style)")}
+
+              <ContentView
+                key="9"
+                data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+                styleOverrides={{
+                  smallImageStyle: {
+                    title: {
+                      numberOfLines: 2,
+                      color: colorScheme === "dark" ? "#FFFFFF" : "#000000",
+                    },
+                    body: {
+                      numberOfLines: 4,
+                      color: colorScheme === "dark" ? "#E0E0E0" : "#666666",
+                    },
+                    container: {
+                      backgroundColor:
+                        colorScheme === "dark" ? "#1A1A1A" : "#FFFFFF",
+                      borderColor:
+                        colorScheme === "dark" ? "#333333" : "#E0E0E0",
+                      borderWidth: 1,
+                    },
+                  },
+                }}
+                listener={(event, identifier) => {
+                  console.log("Event triggered:", event, identifier);
+                }}
+              />
 
               <View style={{ height: 200 }} />
             </View>
