@@ -350,46 +350,9 @@ const ContentCardView = () => {
         )}
 
         {selectedView === "ImageOnly" && (
-          <View
-            style={{
-              padding: 20,
-              backgroundColor: "#e8f4fd",
-              borderRadius: 10,
-              marginBottom: 20,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 24,
-                fontWeight: "bold",
-                color: "#2980b9",
-                marginBottom: 10,
-              }}
-            >
-              Image Only View
-            </Text>
-            <Text
-              style={{
-                fontSize: 16,
-                color: "#34495e",
-                lineHeight: 24,
-              }}
-            >
-              This is the Image Only content view. Perfect for displaying visual
-              content without additional text elements, focusing purely on
-              imagery.
-            </Text>
-            <Text
-              style={{
-                fontSize: 14,
-                color: "#7f8c8d",
-                marginTop: 15,
-                fontStyle: "italic",
-              }}
-            >
-              Image only cards are ideal for visual storytelling and brand
-              awareness campaigns.
-            </Text>
+          <View>
+            {renderStyledText("basic")}
+            <ContentView key="1" data={IMAGE_ONLY_CONTENT_ALL_FIELDS} />
           </View>
         )}
       </ScrollView>
@@ -633,6 +596,22 @@ const LARGE_IMAGE_CONTENT_ALL_FIELDS: ContentTemplate = {
     },
     title: {
       content: "This is large image title",
+    },
+  },
+};
+
+const IMAGE_ONLY_CONTENT_ALL_FIELDS: ContentTemplate = {
+  id: "image-only-all-fields",
+  type: TemplateType.IMAGE_ONLY,
+  imageOnlyData: {
+    actionUrl: "https://google.com",
+    image: {
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+      darkUrl: "https://imagetoDownload.com/darkimage",
+      alt: "flight offer",
+    },
+    dismissBtn: {
+      style: "simple",
     },
   },
 };

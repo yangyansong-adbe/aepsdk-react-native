@@ -16,6 +16,8 @@ import {
   SmallImageContentStyle,
   LargeImageContent,
   LargeImageContentStyle,
+  ImageOnlyContent,
+  ImageOnlyContentStyle,
 } from "@adobe/react-native-aepui";
 import { ContentCardMappingManager } from "./ContentCardMappingManager";
 import Messaging from "./Messaging";
@@ -26,6 +28,7 @@ export interface ContentViewProps {
   styleOverrides?: {
     smallImageStyle?: SmallImageContentStyle;
     largeImageStyle?: LargeImageContentStyle;
+    imageOnlyStyle?: ImageOnlyContentStyle;
   };
   listener?: (
     componentIdentifier: string | null,
@@ -99,6 +102,15 @@ export const ContentView: React.FC<ContentViewProps> = ({
         <LargeImageContent
           data={data.largeImageData}
           styleOverrides={styleOverrides?.largeImageStyle}
+          listener={defaultListener}
+        />
+      );
+    case TemplateType.IMAGE_ONLY:
+      if (!data.imageOnlyData) return null;
+      return (
+        <ImageOnlyContent
+          data={data.imageOnlyData}
+          styleOverrides={styleOverrides?.imageOnlyStyle}
           listener={defaultListener}
         />
       );

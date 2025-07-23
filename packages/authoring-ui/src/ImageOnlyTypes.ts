@@ -9,11 +9,23 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
-export * from './SmallImageTypes';
-export * from './SmallImageCard';
-export * from './LargeImageTypes';
-export * from './LargeImageCard';
-export * from './ImageOnlyTypes';
-export * from './ImageOnlyCard';
-export * from './common/ContentViewEvent';
-export * from './common/Component';
+import { ViewStyle, ImageStyle } from "react-native";
+
+export interface ImageOnlyContentData {
+    readonly image: {
+        readonly alt?: string;
+        readonly url: string;
+        readonly darkUrl?: string;
+    };
+    readonly dismissBtn?: {
+        readonly style: "none" | "simple" | "circle";
+    };
+    readonly actionUrl?: string;
+}
+
+export interface ImageOnlyContentStyle {
+    card?: Partial<ViewStyle>;
+    container?: Partial<ViewStyle>;
+    imageContainer?: Partial<ViewStyle>;
+    image?: Partial<ImageStyle>;
+}
