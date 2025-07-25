@@ -24,12 +24,12 @@ export interface Theme {
     // }
 }
 export interface Colors {
-    primary: string;
-    secondary: string;
-    background: string;
-    text_primary: string;
-    text_secondary: string;
-    title_background: string;
-    body_background: string;
-    image_placeholder: string;
+    primary?: string;
+    secondary?: string;
+    background?: string;
+    text_primary?: string;
+    text_secondary?: string;
+    title_background?: string;
+    body_background?: string;
+    image_placeholder?: string;
 }

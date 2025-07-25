@@ -10,14 +10,7 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-  useMemo,
-} from "react";
+import React, { createContext, useContext, ReactNode, useMemo } from "react";
 import { useColorScheme } from "react-native";
 import { Theme, Themes } from "./Theme";
 

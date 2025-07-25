@@ -17,3 +17,5 @@ export * from './ImageOnlyTypes';
 export * from './ImageOnlyCard';
 export * from './common/ContentViewEvent';
 export * from './common/Component';
+export { ThemeProvider } from './common/ThemeProvider';
+export type { Themes } from './common/Theme';

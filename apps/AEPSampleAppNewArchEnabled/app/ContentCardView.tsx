@@ -11,7 +11,15 @@ governing permissions and limitations under the License.
 */
 
 import React, { useState } from "react";
-import { View, ScrollView, TouchableOpacity, Text, Modal } from "react-native";
+import {
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  Modal,
+  Appearance,
+  ColorSchemeName,
+} from "react-native";
 import {
   ContentProvider,
   ContentTemplate,
@@ -25,9 +33,23 @@ const ContentCardView = () => {
   const [content, setContent] = useState<ContentTemplate[] | null>(null);
   const [selectedView, setSelectedView] = useState<string>("SmallImage");
   const [showPicker, setShowPicker] = useState<boolean>(false);
+  const [selectedTheme, setSelectedTheme] = useState<string>("System");
   const colorScheme = useColorScheme();
 
   const viewOptions = ["SmallImage", "LargeImage", "ImageOnly"];
+  const themeOptions: Array<{
+    label: string;
+    value: ColorSchemeName;
+  }> = [
+    { label: "Light", value: "light" },
+    { label: "Dark", value: "dark" },
+    { label: "System", value: null },
+  ];
+
+  const handleThemeChange = (theme: string, value: ColorSchemeName) => {
+    setSelectedTheme(theme);
+    Appearance.setColorScheme(value);
+  };
 
   const renderStyledText = (text: string) => {
     return (
@@ -54,7 +76,67 @@ const ContentCardView = () => {
 
   return (
     <View>
-      <View style={{ marginTop: 75, marginHorizontal: 20, marginBottom: 20 }}>
+      {/* Theme Switcher */}
+      <View
+        style={{
+          marginTop: 60,
+          marginBottom: 15,
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            width: "65%",
+            backgroundColor: colorScheme === "dark" ? "#3A3A3A" : "#E8E8E8",
+            borderRadius: 12,
+            padding: 4,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          {themeOptions.map((option) => (
+            <TouchableOpacity
+              key={option.label}
+              style={{
+                flex: 1,
+                paddingVertical: 8,
+                paddingHorizontal: 12,
+                borderRadius: 8,
+                marginHorizontal: 1,
+                backgroundColor:
+                  selectedTheme === option.label
+                    ? colorScheme === "dark"
+                      ? "#4A4A4A"
+                      : "#FFFFFF"
+                    : "transparent",
+                alignItems: "center",
+                justifyContent: "center",
+                shadowColor:
+                  selectedTheme === option.label ? "#000" : "transparent",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: selectedTheme === option.label ? 0.1 : 0,
+                shadowRadius: 2,
+                elevation: selectedTheme === option.label ? 2 : 0,
+              }}
+              onPress={() => handleThemeChange(option.label, option.value)}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: selectedTheme === option.label ? "600" : "400",
+                  color: colorScheme === "dark" ? "#FFFFFF" : "#000000",
+                }}
+              >
+                {option.label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      {/* View Selector */}
+      <View style={{ marginHorizontal: 20, marginBottom: 20 }}>
         <TouchableOpacity
           style={{
             height: 50,
