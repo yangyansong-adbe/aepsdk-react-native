@@ -11,7 +11,7 @@
 */
 import { ViewStyle, TextStyle, ImageStyle } from 'react-native';
 
-export type ComponentType = 'view' | 'text' | 'image' | 'button' | 'dismissButton';
+export type ComponentType = 'view' | 'text' | 'title' | 'body' | 'image' | 'button' | 'dismissButton';
 
 // Union type for all possible component styles
 export type ComponentStyle = ViewStyle | ComponentTextStyle | ImageStyle;

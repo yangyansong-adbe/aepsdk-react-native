@@ -22,6 +22,7 @@ import {
 import { ContentViewEvent } from "./ContentViewEvent";
 import { Component, ComponentTextStyle, ButtonStyle } from "./Component";
 import { ViewStyle, ImageStyle } from "react-native";
+import { useTheme } from "./ThemeProvider";
 
 /**
  * Renders a dismiss button component with appropriate styling based on dismiss type.
@@ -80,12 +81,10 @@ const renderDismissButton = (
       case "simple":
         return {
           ...baseTextStyle,
-          color: "#666666",
         };
       case "circle":
         return {
           ...baseTextStyle,
-          color: "#333333",
         };
       default:
         return baseTextStyle;
@@ -115,6 +114,7 @@ const renderComponent = (
   component: Component,
   onEvent?: (interactId: string, eventName: ContentViewEvent) => void
 ): React.ReactElement | null => {
+  const { theme } = useTheme();
   const style = { ...component.style };
   const { interactId } = component;
 
@@ -127,8 +127,13 @@ const renderComponent = (
 
   switch (component.type) {
     case "view":
+      const viewStyle = {
+        ...(style as ViewStyle),
+        backgroundColor: theme.colors.background,
+      };
+
       return (
-        <View style={style as ViewStyle}>
+        <View style={viewStyle}>
           {component.children?.map((childComponent, index) => (
             <React.Fragment key={index}>
               {renderComponent(childComponent, onEvent)}
@@ -138,6 +143,11 @@ const renderComponent = (
       );
 
     case "text":
+      const textStyle = {
+        ...(style as ComponentTextStyle),
+        color: theme.colors.text_primary,
+      };
+
       return (
         <TouchableOpacity activeOpacity={0.7}>
           <Text
@@ -145,7 +155,45 @@ const renderComponent = (
               (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
             }
             numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
-            style={style as ComponentTextStyle}
+            style={textStyle}
+          >
+            {component.content}
+          </Text>
+        </TouchableOpacity>
+      );
+    case "title":
+      const titleStyle = {
+        ...(style as ComponentTextStyle),
+        color: theme.colors.text_primary,
+      };
+
+      return (
+        <TouchableOpacity activeOpacity={0.7}>
+          <Text
+            adjustsFontSizeToFit={
+              (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
+            }
+            numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
+            style={titleStyle}
+          >
+            {component.content}
+          </Text>
+        </TouchableOpacity>
+      );
+    case "body":
+      const bodyStyle = {
+        ...(style as ComponentTextStyle),
+        color: theme.colors.text_secondary,
+      };
+
+      return (
+        <TouchableOpacity activeOpacity={0.7}>
+          <Text
+            adjustsFontSizeToFit={
+              (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
+            }
+            numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
+            style={bodyStyle}
           >
             {component.content}
           </Text>
@@ -159,19 +207,23 @@ const renderComponent = (
           ? component.darkUrl
           : component.url;
 
+      const imageStyle = {
+        ...(style as ImageStyle),
+        backgroundColor: theme.colors.image_placeholder,
+      };
+
       return (
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => handlePress("press")}
         >
-          <Image style={style as ImageStyle} source={{ uri: imageUrl }} />
+          <Image style={imageStyle} source={{ uri: imageUrl }} />
         </TouchableOpacity>
       );
 
     case "button":
       const handleButtonPress = async () => {
         handlePress("clickButton");
-
         if (component.actionUrl) {
           try {
             await Linking.openURL(component.actionUrl);
@@ -186,7 +238,7 @@ const renderComponent = (
         <View style={style as ButtonStyle}>
           <Button
             title={component.content || ""}
-            color="#007AFF"
+            // color={theme.colors.primary}
             onPress={handleButtonPress}
           />
         </View>

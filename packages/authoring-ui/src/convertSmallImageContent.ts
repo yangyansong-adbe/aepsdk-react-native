@@ -144,12 +144,12 @@ export function convertSmallImageContentToComponent(
                             style: mergedStyles.textContent,
                             children: [
                                 ...(data.title?.content ? [{
-                                    type: 'text' as ComponentType,
+                                    type: 'title' as ComponentType,
                                     style: mergedStyles.title,
                                     content: data.title.content,
                                 }] : []),
                                 ...(data.body?.content ? [{
-                                    type: 'text' as ComponentType,
+                                    type: 'body' as ComponentType,
                                     style: mergedStyles.body,
                                     content: data.body.content,
                                 }] : []),

@@ -107,7 +107,10 @@ export const ThemeProvider = ({
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
+    const systemColorScheme = useColorScheme();
+    return {
+      theme: defaultTheme[systemColorScheme] || defaultTheme.light,
+    };
   }
   return context;
 };
