@@ -26,7 +26,11 @@ import {
   ContentView,
 } from "@adobe/react-native-aepmessaging";
 import { useEffect } from "react";
-import { TemplateType } from "@adobe/react-native-aepmessaging";
+import {
+  TemplateType,
+  ThemeProvider,
+  Themes,
+} from "@adobe/react-native-aepmessaging";
 import { useColorScheme } from "../hooks/useColorScheme";
 
 const ContentCardView = () => {
@@ -275,8 +279,29 @@ const ContentCardView = () => {
               ))}
             </View> */}
             <View>
-              {renderStyledText("basic")}
+              {renderStyledText("Basic: all fields")}
               <ContentView key="1" data={SMALL_IMAGE_CONTENT_ALL_FIELDS} />
+
+              {renderStyledText("Theme")}
+              <ThemeProvider
+                customThemes={{
+                  light: {
+                    colors: {
+                      text_primary: "red",
+                      background: "lightgreen",
+                    },
+                  },
+                  dark: {
+                    colors: {
+                      text_primary: "green",
+                      background: "lightblue",
+                    },
+                  },
+                }}
+              >
+                <ContentView key="1" data={SMALL_IMAGE_CONTENT_ALL_FIELDS} />
+              </ThemeProvider>
+
               {renderStyledText("No dismiss button")}
               <ContentView
                 key="11"
