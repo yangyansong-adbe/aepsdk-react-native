@@ -33,6 +33,7 @@ export interface ContentTemplate {
     readonly smallImageData?: SmallImageContentData;
     readonly largeImageData?: LargeImageContentData;
     readonly imageOnlyData?: ImageOnlyContentData;
+    // TODO: add metadata here ....
 }
 
 export class ContentProvider {

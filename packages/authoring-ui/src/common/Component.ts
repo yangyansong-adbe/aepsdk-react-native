@@ -21,6 +21,11 @@ export type ComponentTextStyle = TextStyle & {
     adjustsFontSizeToFit?: boolean;
 }
 
+export interface ButtonStyle {
+    color?: string;
+    marginHorizontal?: number;
+}
+
 export interface Component {
     type: ComponentType;
     style?: ComponentStyle;

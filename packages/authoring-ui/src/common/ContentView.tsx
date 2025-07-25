@@ -20,7 +20,7 @@ import {
   Linking,
 } from "react-native";
 import { ContentViewEvent } from "./ContentViewEvent";
-import { Component, ComponentTextStyle } from "./Component";
+import { Component, ComponentTextStyle, ButtonStyle } from "./Component";
 import { ViewStyle, ImageStyle } from "react-native";
 
 /**
@@ -183,11 +183,13 @@ const renderComponent = (
       };
 
       return (
-        <Button
-          title={component.content || ""}
-          color="#007AFF"
-          onPress={handleButtonPress}
-        />
+        <View style={style as ButtonStyle}>
+          <Button
+            title={component.content || ""}
+            color="#007AFF"
+            onPress={handleButtonPress}
+          />
+        </View>
       );
 
     case "dismissButton":

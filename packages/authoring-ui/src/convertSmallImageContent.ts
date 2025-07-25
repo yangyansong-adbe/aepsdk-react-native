@@ -9,7 +9,7 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
-import { Component, ComponentType, ComponentTextStyle } from './common/Component';
+import { Component, ComponentType, ComponentTextStyle, ButtonStyle } from './common/Component';
 import { SmallImageContentData, SmallImageContentStyle } from './SmallImageTypes';
 import { ViewStyle, ImageStyle } from 'react-native';
 
@@ -25,18 +25,19 @@ interface StyleObject extends SmallImageContentStyle {
     buttonContainer: ViewStyle;
     title: ComponentTextStyle;
     body: ComponentTextStyle;
+    button: ButtonStyle;
 }
 
 const styles: StyleObject = {
     card: {
-        backgroundColor: '#ffffff',
+        // backgroundColor: '#ffffff',
         borderRadius: 12,
         overflow: 'hidden',
         margin: 15,
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
+        // shadowColor: '#000',
+        // shadowOpacity: 0.1,
+        // shadowRadius: 4,
+        // elevation: 3,
         position: 'relative', // Added for dismiss button positioning
         minHeight: 120, // Add minimum height for the card
         maxHeight: 200,
@@ -47,7 +48,7 @@ const styles: StyleObject = {
         minHeight: 120, // Match card minHeight
     },
     imageContainer: {
-        backgroundColor: '#f0f0f0',
+        // backgroundColor: '#f0f0f0',
         borderTopLeftRadius: 12,
         borderBottomLeftRadius: 12,
         width: "35%",
@@ -71,14 +72,14 @@ const styles: StyleObject = {
     title: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#000000',
+        // color: '#000000',
         marginBottom: 8,
         numberOfLines: 1,
         adjustsFontSizeToFit: true,
     },
     body: {
         fontSize: 14,
-        color: '#666666',
+        // color: '#666666',
         lineHeight: 18,
         numberOfLines: 3,
         adjustsFontSizeToFit: true,
@@ -89,6 +90,9 @@ const styles: StyleObject = {
         justifyContent: 'flex-end', // Changed from 'flex-start' to 'flex-end' for right alignment
         marginTop: 12,
     },
+    button: {
+        marginHorizontal: 10,
+    }
 
 };
 
@@ -105,6 +109,7 @@ function mergeStyles(defaultStyles: StyleObject, overrides?: SmallImageContentSt
         buttonContainer: { ...defaultStyles.buttonContainer, ...overrides.buttonContainer },
         title: { ...defaultStyles.title, ...overrides.title },
         body: { ...defaultStyles.body, ...overrides.body },
+        button: { ...defaultStyles.button, ...overrides.button },
     };
 }
 
@@ -159,6 +164,7 @@ export function convertSmallImageContentToComponent(
                                 actionUrl: btn.actionUrl,
                                 id: btn.id,
                                 content: btn.text.content,
+                                style: mergedStyles.button,
                             })),
                         }] : []),
                     ],

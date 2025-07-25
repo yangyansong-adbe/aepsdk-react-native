@@ -200,6 +200,11 @@ const ContentCardView = () => {
                 key="11"
                 data={SMALL_IMAGE_CONTENT_NO_DISMISS_BUTTON}
               />
+              {renderStyledText("Dismiss button (simple)")}
+              <ContentView
+                key="12"
+                data={SMALL_IMAGE_CONTENT_DISMISS_BUTTON_SIMPLE}
+              />
               {renderStyledText("Invalid image")}
               <ContentView key="2" data={SMALL_IMAGE_CONTENT_INVALID_IMAGE} />
               {renderStyledText("image (darkUrl)")}
@@ -420,6 +425,46 @@ const SMALL_IMAGE_CONTENT_NO_DISMISS_BUTTON: ContentTemplate = {
         },
       },
     ],
+    actionUrl: "",
+    body: {
+      content:
+        "Get live scores, real-time updates, and exclusive content right at your fingertips.",
+    },
+    title: {
+      content: "Stay connected to all the action",
+    },
+  },
+};
+
+const SMALL_IMAGE_CONTENT_DISMISS_BUTTON_SIMPLE: ContentTemplate = {
+  id: "small-image-dismiss-button-simple",
+  type: TemplateType.SMALL_IMAGE,
+  smallImageData: {
+    image: {
+      alt: "",
+      url: "https://cdn-icons-png.flaticon.com/256/3303/3303838.png",
+      darkUrl: "https://cdn-icons-png.flaticon.com/256/3303/3303838.png",
+    },
+    buttons: [
+      {
+        interactId: "downloadClicked",
+        actionUrl: "https://nba.com",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        text: {
+          content: "Download App",
+        },
+      },
+      {
+        interactId: "OK",
+        id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
+        text: {
+          content: "OK",
+        },
+      },
+    ],
+    dismissBtn: {
+      style: "simple",
+    },
     actionUrl: "",
     body: {
       content:

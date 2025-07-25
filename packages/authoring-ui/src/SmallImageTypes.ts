@@ -10,7 +10,7 @@
     language governing permissions and limitations under the License.
 */
 import { ViewStyle, ImageStyle } from "react-native";
-import { ComponentTextStyle } from "./common/Component";
+import { ComponentTextStyle, ButtonStyle } from "./common/Component";
 
 export interface SmallImageContentButton {
     readonly interactId: string;
@@ -52,4 +52,5 @@ export interface SmallImageContentStyle {
     title?: Partial<ComponentTextStyle>;
     body?: Partial<ComponentTextStyle>;
     buttonContainer?: Partial<ViewStyle>;
+    button?: Partial<ButtonStyle>;
 }
