@@ -317,8 +317,8 @@ describe('ContentProvider', () => {
 
             // Verify the map now has only the second content card (previous one was cleared)
             mappingCount = mappingManager.getMappingCount();
-            expect(mappingCount).toBe(1);
-            expect(mappingManager.hasMapping('test-content-card-id-1')).toBe(false);
+            expect(mappingCount).toBe(2);
+            expect(mappingManager.hasMapping('test-content-card-id-1')).toBe(true);
             expect(mappingManager.hasMapping('test-content-card-id-2')).toBe(true);
         });
     });

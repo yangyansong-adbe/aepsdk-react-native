@@ -9,13 +9,13 @@
     ANY KIND, either express or implied. See the License for the specific
     language governing permissions and limitations under the License.
 */
-import { convertSmallImageContentToComponent } from '../src/convertSmallImageContent';
-import { SmallImageContentData, SmallImageContentStyle } from '../src/SmallImageTypes';
+import { convertLargeImageContentToComponent } from '../src/convertLargeImageContent';
+import { LargeImageContentData, LargeImageContentStyle } from '../src/LargeImageTypes';
 
-describe('convertSmallImageContentToComponent', () => {
+describe('convertLargeImageContentToComponent', () => {
     describe('Basic functionality', () => {
-        it('converts basic small image content to component', () => {
-            const data: SmallImageContentData = {
+        it('converts basic large image content to component', () => {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 body: { content: 'Test Body' },
                 image: {
@@ -24,7 +24,7 @@ describe('convertSmallImageContentToComponent', () => {
                 },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.type).toBe('view');
             expect(result.children).toBeDefined();
@@ -32,23 +32,35 @@ describe('convertSmallImageContentToComponent', () => {
         });
 
         it('handles data without image', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 body: { content: 'Test Body' },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.type).toBe('view');
             expect(result.children).toBeDefined();
         });
 
         it('handles data with only title', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
+
+            expect(result.type).toBe('view');
+            expect(result.children).toBeDefined();
+        });
+
+        it('handles data with only title (no body)', () => {
+            const data: LargeImageContentData = {
+                title: { content: 'Test Title' },
+                // body is optional, so omitting it
+            };
+
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.type).toBe('view');
             expect(result.children).toBeDefined();
@@ -57,7 +69,7 @@ describe('convertSmallImageContentToComponent', () => {
 
     describe('Button handling', () => {
         it('includes buttons when provided', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 buttons: [
                     {
@@ -73,9 +85,9 @@ describe('convertSmallImageContentToComponent', () => {
                 ],
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
-            // Find the button container - it's the second child of the content container
+            // Find the content container and button container
             const contentContainer = result.children![0].children![0];
             const buttonContainer = contentContainer.children![1];
             expect(buttonContainer.type).toBe('view');
@@ -85,15 +97,45 @@ describe('convertSmallImageContentToComponent', () => {
             expect(buttonContainer.children![0].interactId).toBe('btn1');
         });
 
+        it('limits buttons to maximum of 3', () => {
+            const data: LargeImageContentData = {
+                title: { content: 'Test Title' },
+                buttons: [
+                    {
+                        interactId: 'btn1',
+                        text: { content: 'Button 1' },
+                    },
+                    {
+                        interactId: 'btn2',
+                        text: { content: 'Button 2' },
+                    },
+                    {
+                        interactId: 'btn3',
+                        text: { content: 'Button 3' },
+                    },
+                    {
+                        interactId: 'btn4',
+                        text: { content: 'Button 4' },
+                    },
+                ],
+            };
+
+            const result = convertLargeImageContentToComponent(data);
+
+            const contentContainer = result.children![0].children![0];
+            const buttonContainer = contentContainer.children![1];
+            expect(buttonContainer.children).toHaveLength(3); // Should only have 3 buttons
+        });
+
         it('handles empty buttons array', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 buttons: [],
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
-            // Should not have button container
+            // Should not have button container when buttons array is empty
             const contentContainer = result.children![0].children![0];
             expect(contentContainer.children).toHaveLength(1); // Only text content
         });
@@ -101,12 +143,12 @@ describe('convertSmallImageContentToComponent', () => {
 
     describe('Dismiss button handling', () => {
         it('includes dismiss button when dismissType is simple', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 dismissBtn: { style: 'simple' },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.children).toHaveLength(2); // Main content + dismiss button
             const dismissButton = result.children![1];
@@ -116,12 +158,12 @@ describe('convertSmallImageContentToComponent', () => {
         });
 
         it('includes dismiss button when dismissType is circle', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 dismissBtn: { style: 'circle' },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             const dismissButton = result.children![1];
             expect(dismissButton.type).toBe('dismissButton');
@@ -129,22 +171,22 @@ describe('convertSmallImageContentToComponent', () => {
         });
 
         it('does not include dismiss button when dismissType is none', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 dismissBtn: { style: 'none' },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.children).toHaveLength(1); // Only main content
         });
 
         it('does not include dismiss button when dismissBtn is not provided', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.children).toHaveLength(1); // Only main content
         });
@@ -152,11 +194,11 @@ describe('convertSmallImageContentToComponent', () => {
 
     describe('Style overrides', () => {
         it('applies style overrides correctly', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
             };
 
-            const styleOverrides: SmallImageContentStyle = {
+            const styleOverrides: LargeImageContentStyle = {
                 card: {
                     backgroundColor: '#ff0000',
                     borderRadius: 20,
@@ -167,7 +209,7 @@ describe('convertSmallImageContentToComponent', () => {
                 },
             };
 
-            const result = convertSmallImageContentToComponent(data, styleOverrides);
+            const result = convertLargeImageContentToComponent(data, styleOverrides);
 
             expect(result.style).toMatchObject({
                 backgroundColor: '#ff0000',
@@ -176,20 +218,21 @@ describe('convertSmallImageContentToComponent', () => {
         });
 
         it('merges default styles with overrides', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
             };
 
-            const styleOverrides: SmallImageContentStyle = {
+            const styleOverrides: LargeImageContentStyle = {
                 title: {
                     fontSize: 24,
                 },
             };
 
-            const result = convertSmallImageContentToComponent(data, styleOverrides);
+            const result = convertLargeImageContentToComponent(data, styleOverrides);
 
             // Should have both default and override styles
-            const textContainer = result.children![0].children![0].children![0];
+            const contentContainer = result.children![0].children![0];
+            const textContainer = contentContainer.children![0];
             const titleComponent = textContainer.children![0];
             expect(titleComponent.style).toMatchObject({
                 fontSize: 24,
@@ -199,7 +242,7 @@ describe('convertSmallImageContentToComponent', () => {
 
     describe('Image handling', () => {
         it('includes image when url is provided', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 image: {
                     url: 'https://example.com/image.jpg',
@@ -208,7 +251,7 @@ describe('convertSmallImageContentToComponent', () => {
                 },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             const imageContainer = result.children![0].children![0];
             expect(imageContainer.type).toBe('view');
@@ -222,7 +265,7 @@ describe('convertSmallImageContentToComponent', () => {
         });
 
         it('does not include image when url is not provided', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 image: {
                     url: '', // Empty URL
@@ -230,7 +273,7 @@ describe('convertSmallImageContentToComponent', () => {
                 },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             const container = result.children![0];
             expect(container.children).toHaveLength(1); // Only content container
@@ -239,33 +282,34 @@ describe('convertSmallImageContentToComponent', () => {
 
     describe('Edge cases', () => {
         it('handles data with empty title content', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: '' }, // Empty title content
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.type).toBe('view');
             expect(result.children).toBeDefined();
         });
 
-        it('handles empty data object', () => {
-            const data: SmallImageContentData = {
-                title: { content: 'Test Title' }, // Required field
+        it('handles data with empty body content', () => {
+            const data: LargeImageContentData = {
+                title: { content: 'Test Title' }, // title is required
+                body: { content: '' }, // Empty body content
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             expect(result.type).toBe('view');
             expect(result.children).toBeDefined();
         });
 
         it('handles undefined style overrides', () => {
-            const data: SmallImageContentData = {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
             };
 
-            const result = convertSmallImageContentToComponent(data, undefined);
+            const result = convertLargeImageContentToComponent(data, undefined);
 
             expect(result.type).toBe('view');
             expect(result.children).toBeDefined();
@@ -273,8 +317,8 @@ describe('convertSmallImageContentToComponent', () => {
     });
 
     describe('Component structure validation', () => {
-        it('creates correct component hierarchy', () => {
-            const data: SmallImageContentData = {
+        it('creates correct component hierarchy with image', () => {
+            const data: LargeImageContentData = {
                 title: { content: 'Test Title' },
                 body: { content: 'Test Body' },
                 image: {
@@ -289,7 +333,7 @@ describe('convertSmallImageContentToComponent', () => {
                 dismissBtn: { style: 'simple' },
             };
 
-            const result = convertSmallImageContentToComponent(data);
+            const result = convertLargeImageContentToComponent(data);
 
             // Root component
             expect(result.type).toBe('view');
@@ -323,6 +367,29 @@ describe('convertSmallImageContentToComponent', () => {
             // Dismiss button
             const dismissButton = result.children![1];
             expect(dismissButton.type).toBe('dismissButton');
+        });
+
+        it('creates correct component hierarchy without image', () => {
+            const data: LargeImageContentData = {
+                title: { content: 'Test Title' },
+                body: { content: 'Test Body' },
+            };
+
+            const result = convertLargeImageContentToComponent(data);
+
+            // Root component
+            expect(result.type).toBe('view');
+            expect(result.children).toHaveLength(1); // Only main content
+
+            // Main content container
+            const mainContent = result.children![0];
+            expect(mainContent.type).toBe('view');
+            expect(mainContent.children).toHaveLength(1); // Only content container (no image)
+
+            // Content container
+            const contentContainer = mainContent.children![0];
+            expect(contentContainer.type).toBe('view');
+            expect(contentContainer.children).toHaveLength(1); // Only text content (no buttons)
         });
     });
 }); 
