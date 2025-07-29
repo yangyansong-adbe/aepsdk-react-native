@@ -20,14 +20,8 @@ import {
 import styles from "../styles/styles";
 import { useRouter } from "expo-router";
 
-const SURFACES = [
-  "android-cbe-preview",
-  "cbe/json",
-  "android-cc",
-  "cardstab",
-  "card/ms",
-];
-const SURFACES_WITH_CONTENT_CARDS = ["cardstab", "card/ms"];
+const SURFACES = ["android-cbe-preview", "cbe/json", "android-cc"];
+const SURFACES_WITH_CONTENT_CARDS = ["android-cc"];
 
 const messagingExtensionVersion = async () => {
   const version = await Messaging.extensionVersion();
@@ -42,7 +36,16 @@ const refreshInAppMessages = () => {
 const setMessagingDelegate = () => {
   Messaging.setMessagingDelegate({
     onDismiss: (msg) => console.log("dismissed!", msg),
-    onShow: (msg) => console.log("show", msg),
+    onShow: (msg) => {
+      console.log("show", msg);
+      Messaging.handleJavascriptMessage(
+        msg.id,
+        "myInappCallback",
+        (content) => {
+          console.log("Received webview content:", content);
+        }
+      );
+    },
     shouldShowMessage: () => true,
     shouldSaveMessage: () => true,
     urlLoaded: (url, message) => console.log(url, message),
@@ -51,7 +54,6 @@ const setMessagingDelegate = () => {
 };
 
 const getPropositionsForSurfaces = async () => {
-  // MobileCore.trackAction("spujari_qualify");
   const messages = await Messaging.getPropositionsForSurfaces(SURFACES);
   console.log(JSON.stringify(messages));
 };
