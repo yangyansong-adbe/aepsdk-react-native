@@ -284,6 +284,9 @@ const ContentCardView = () => {
                 key="1"
                 data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
                 cardHeight={100}
+                listener={(event, identifier) => {
+                  console.log("Event triggered:", event, identifier);
+                }}
               />
               {renderStyledText("Custom theme")}
               <ThemeProvider
@@ -302,7 +305,13 @@ const ContentCardView = () => {
                   },
                 }}
               >
-                <ContentView key="1" data={SMALL_IMAGE_CONTENT_ALL_FIELDS} />
+                <ContentView
+                  key="1"
+                  data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
+                  listener={(event, identifier) => {
+                    console.log("Event triggered:", event, identifier);
+                  }}
+                />
               </ThemeProvider>
 
               {renderStyledText("No dismiss button")}

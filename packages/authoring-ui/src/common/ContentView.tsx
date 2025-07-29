@@ -96,6 +96,220 @@ const renderDismissButton = (
 };
 
 /**
+ * Renders a view component with its children.
+ */
+const renderViewComponent = (
+  component: Component,
+  theme: any,
+  colorScheme: "light" | "dark",
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+): React.ReactElement => {
+  const style = { ...component.style };
+  const viewStyle = {
+    ...(style as ViewStyle),
+    backgroundColor: theme.colors.background,
+  };
+
+  return (
+    <View style={viewStyle}>
+      {component.children?.map((childComponent, index) => (
+        <React.Fragment key={index}>
+          {renderComponent(childComponent, theme, colorScheme, onEvent)}
+        </React.Fragment>
+      ))}
+    </View>
+  );
+};
+
+/**
+ * Renders a text component.
+ */
+const renderTextComponent = (
+  component: Component,
+  theme: any,
+  colorScheme: "light" | "dark",
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+): React.ReactElement => {
+  const style = { ...component.style };
+  const textStyle = {
+    ...(style as ComponentTextStyle),
+    color: theme.colors.text_primary,
+  };
+
+  return (
+    <TouchableOpacity activeOpacity={0.7}>
+      <Text
+        adjustsFontSizeToFit={
+          (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
+        }
+        numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
+        style={textStyle}
+      >
+        {component.content}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+/**
+ * Renders a title component.
+ */
+const renderTitleComponent = (
+  component: Component,
+  theme: any,
+  colorScheme: "light" | "dark",
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+): React.ReactElement => {
+  const style = { ...component.style };
+  const titleStyle = {
+    ...(style as ComponentTextStyle),
+    color: theme.colors.text_primary,
+  };
+
+  return (
+    <TouchableOpacity activeOpacity={0.7}>
+      <Text
+        adjustsFontSizeToFit={
+          (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
+        }
+        numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
+        style={titleStyle}
+      >
+        {component.content}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+/**
+ * Renders a body component.
+ */
+const renderBodyComponent = (
+  component: Component,
+  theme: any,
+  colorScheme: "light" | "dark",
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+): React.ReactElement => {
+  const style = { ...component.style };
+  const bodyStyle = {
+    ...(style as ComponentTextStyle),
+    color: theme.colors.text_secondary,
+  };
+
+  return (
+    <TouchableOpacity activeOpacity={0.7}>
+      <Text
+        adjustsFontSizeToFit={
+          (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
+        }
+        numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
+        style={bodyStyle}
+      >
+        {component.content}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+/**
+ * Renders an image component.
+ */
+const renderImageComponent = (
+  component: Component,
+  theme: any,
+  colorScheme: "light" | "dark",
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+): React.ReactElement => {
+  const style = { ...component.style };
+  const { interactId } = component;
+
+  const handlePress = (eventName: ContentViewEvent) => {
+    if (interactId && onEvent) {
+      onEvent(interactId, eventName);
+    }
+  };
+
+  const imageUrl =
+    component.darkUrl && colorScheme === "dark"
+      ? component.darkUrl
+      : component.url;
+
+  const imageStyle = {
+    ...(style as ImageStyle),
+    backgroundColor: theme.colors.image_placeholder,
+  };
+
+  return (
+    <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress("press")}>
+      <Image style={imageStyle} source={{ uri: imageUrl }} />
+    </TouchableOpacity>
+  );
+};
+
+/**
+ * Renders a button component.
+ */
+const renderButtonComponent = (
+  component: Component,
+  theme: any,
+  colorScheme: "light" | "dark",
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+): React.ReactElement => {
+  const style = { ...component.style };
+  const { interactId } = component;
+
+  const handlePress = (eventName: ContentViewEvent) => {
+    if (interactId && onEvent) {
+      onEvent(interactId, eventName);
+    }
+  };
+
+  const handleButtonPress = async () => {
+    handlePress("clickButton");
+    if (component.actionUrl) {
+      try {
+        await Linking.openURL(component.actionUrl);
+      } catch (error) {
+        // TODO: add a utility function to handle SDK logs.
+        console.warn(`Failed to open URL: ${component.actionUrl}`, error);
+      }
+    }
+  };
+
+  return (
+    <View style={style as ButtonStyle}>
+      <Button
+        title={component.content || ""}
+        // color={theme.colors.primary}
+        onPress={handleButtonPress}
+      />
+    </View>
+  );
+};
+
+/**
+ * Renders a dismiss button component.
+ */
+const renderDismissButtonComponent = (
+  component: Component,
+  theme: any,
+  colorScheme: "light" | "dark",
+  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+): React.ReactElement | null => {
+  const { interactId } = component;
+
+  const handlePress = (eventName: ContentViewEvent) => {
+    if (interactId && onEvent) {
+      onEvent(interactId, eventName);
+    }
+  };
+
+  return renderDismissButton(component, colorScheme, () =>
+    handlePress("onDismiss")
+  );
+};
+
+/**
  * Renders a component based on its type and properties.
  *
  * @param component - The component to render.
@@ -108,140 +322,34 @@ const renderDismissButton = (
 const renderComponent = (
   component: Component,
   theme: any,
-  colorScheme: "light" | "dark" | null | undefined,
+  colorScheme: "light" | "dark",
   onEvent?: (interactId: string, eventName: ContentViewEvent) => void
 ): React.ReactElement | null => {
-  const style = { ...component.style };
-  const { interactId } = component;
-
-  // Create the handlePress function (no useCallback here since this is not a React component)
-  const handlePress = (eventName: ContentViewEvent) => {
-    if (interactId && onEvent) {
-      onEvent(interactId, eventName);
-    }
-  };
-
   switch (component.type) {
     case "view":
-      const viewStyle = {
-        ...(style as ViewStyle),
-        backgroundColor: theme.colors.background,
-      };
-
-      return (
-        <View style={viewStyle}>
-          {component.children?.map((childComponent, index) => (
-            <React.Fragment key={index}>
-              {renderComponent(childComponent, theme, colorScheme, onEvent)}
-            </React.Fragment>
-          ))}
-        </View>
-      );
+      return renderViewComponent(component, theme, colorScheme, onEvent);
 
     case "text":
-      const textStyle = {
-        ...(style as ComponentTextStyle),
-        color: theme.colors.text_primary,
-      };
+      return renderTextComponent(component, theme, colorScheme, onEvent);
 
-      return (
-        <TouchableOpacity activeOpacity={0.7}>
-          <Text
-            adjustsFontSizeToFit={
-              (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
-            }
-            numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
-            style={textStyle}
-          >
-            {component.content}
-          </Text>
-        </TouchableOpacity>
-      );
     case "title":
-      const titleStyle = {
-        ...(style as ComponentTextStyle),
-        color: theme.colors.text_primary,
-      };
+      return renderTitleComponent(component, theme, colorScheme, onEvent);
 
-      return (
-        <TouchableOpacity activeOpacity={0.7}>
-          <Text
-            adjustsFontSizeToFit={
-              (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
-            }
-            numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
-            style={titleStyle}
-          >
-            {component.content}
-          </Text>
-        </TouchableOpacity>
-      );
     case "body":
-      const bodyStyle = {
-        ...(style as ComponentTextStyle),
-        color: theme.colors.text_secondary,
-      };
-
-      return (
-        <TouchableOpacity activeOpacity={0.7}>
-          <Text
-            adjustsFontSizeToFit={
-              (style as ComponentTextStyle)?.adjustsFontSizeToFit || true
-            }
-            numberOfLines={(style as ComponentTextStyle)?.numberOfLines || 1}
-            style={bodyStyle}
-          >
-            {component.content}
-          </Text>
-        </TouchableOpacity>
-      );
+      return renderBodyComponent(component, theme, colorScheme, onEvent);
 
     case "image":
-      const imageUrl =
-        component.darkUrl && colorScheme === "dark"
-          ? component.darkUrl
-          : component.url;
-
-      const imageStyle = {
-        ...(style as ImageStyle),
-        backgroundColor: theme.colors.image_placeholder,
-      };
-
-      return (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => handlePress("press")}
-        >
-          <Image style={imageStyle} source={{ uri: imageUrl }} />
-        </TouchableOpacity>
-      );
+      return renderImageComponent(component, theme, colorScheme, onEvent);
 
     case "button":
-      const handleButtonPress = async () => {
-        handlePress("clickButton");
-        if (component.actionUrl) {
-          try {
-            await Linking.openURL(component.actionUrl);
-          } catch (error) {
-            // TODO: add a utility function to handle SDK logs.
-            console.warn(`Failed to open URL: ${component.actionUrl}`, error);
-          }
-        }
-      };
-
-      return (
-        <View style={style as ButtonStyle}>
-          <Button
-            title={component.content || ""}
-            // color={theme.colors.primary}
-            onPress={handleButtonPress}
-          />
-        </View>
-      );
+      return renderButtonComponent(component, theme, colorScheme, onEvent);
 
     case "dismissButton":
-      return renderDismissButton(component, colorScheme, () =>
-        handlePress("onDismiss")
+      return renderDismissButtonComponent(
+        component,
+        theme,
+        colorScheme,
+        onEvent
       );
 
     default:
