@@ -16,10 +16,13 @@ export interface Themes {
 
 export interface Theme {
     colors: Colors;
+    // Optional: add custom styles for the selected components
     // components: {
     //     button: {
-    //         background: string;
-    //         text: string;
+    //         padding: number;
+    //         margin: number;
+    //         borderRadius: number;
+    //         borderWidth: number
     //     }
     // }
 }
@@ -32,4 +35,5 @@ export interface Colors {
     title_background?: string;
     body_background?: string;
     image_placeholder?: string;
+    button_text_color?: string;
 }

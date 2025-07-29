@@ -35,5 +35,5 @@ export const LargeImageContent: React.FC<LargeImageContentProps> = (
 ) => {
   const { data, styleOverrides, listener } = props;
   const component = convertLargeImageContentToComponent(data, styleOverrides);
-  return <ContentView obj={component} onEvent={listener} />;
+  return <ContentView component={component} onEvent={listener} />;
 };

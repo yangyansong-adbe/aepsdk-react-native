@@ -32,5 +32,5 @@ export const ImageOnlyContent: React.FC<ImageOnlyContentProps> = (
 ) => {
   const { data, styleOverrides, listener } = props;
   const component = convertImageOnlyContentToComponent(data, styleOverrides);
-  return <ContentView obj={component} onEvent={listener} />;
+  return <ContentView component={component} onEvent={listener} />;
 };

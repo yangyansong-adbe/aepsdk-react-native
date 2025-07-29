@@ -19,7 +19,7 @@ interface ThemeProviderProps {
   customThemes: Themes;
 }
 
-interface ThemeContextType {
+export interface ThemeContextType {
   theme: Theme;
 }
 
@@ -34,24 +34,33 @@ const defaultTheme: Themes = {
       title_background: "#F2F2F7",
       body_background: "#FFFFFF",
       image_placeholder: "#C7C7CC",
+      button_text_color: "dodgerblue",
     },
   },
   dark: {
     colors: {
       primary: "#0A84FF",
       secondary: "#5E5CE6",
-      background: "#000000",
+      background: "#262626",
       text_primary: "#FFFFFF",
       text_secondary: "#8E8E93",
       title_background: "#1C1C1E",
-      body_background: "#000000",
+      body_background: "#262626",
       image_placeholder: "#48484A",
+      button_text_color: "dodgerblue",
     },
   },
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+/**
+ * ThemeProvider component that provides the theme to the children components.
+ *
+ * @param children - The children components.
+ * @param customThemes - The custom themes to override the default themes.
+ * @returns The ThemeProvider component.
+ */
 export const ThemeProvider = ({
   children,
   customThemes,
@@ -97,7 +106,12 @@ export const ThemeProvider = ({
   );
 };
 
-export const useTheme = () => {
+/**
+ * useTheme hook that returns the theme context.
+ *
+ * @returns The theme context.
+ */
+export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
     const systemColorScheme = useColorScheme();

@@ -57,7 +57,7 @@ const ContentCardView = () => {
 
   const renderStyledText = (text: string) => {
     return (
-      <Text style={{ color: "blue", textAlign: "center", fontSize: 20 }}>
+      <Text style={{ color: "darkgray", textAlign: "center", fontSize: 18 }}>
         {text}
       </Text>
     );
@@ -213,100 +213,38 @@ const ContentCardView = () => {
       <ScrollView contentContainerStyle={{ marginRight: 20 }}>
         {selectedView === "SmallImage" && (
           <View>
-            {/* <View style={{ height: 200 }}>
-              {content?.map((item, idx) => (
-                <ContentView key={idx} data={item} />
-              ))}
-            </View> */}
-            {/* <View>
-              {content?.map((item, idx) => (
-                <View key={idx} style={{ height: 180 }}>
-                  <ContentView
-                    key={idx}
-                    data={item}
-                    styleOverrides={{
-                      smallImageStyle: {
-                        title: {
-                          numberOfLines: 1,
-                          color: "#8e44ad",
-                        },
-                        body: {
-                          numberOfLines: 4,
-                        },
-                      },
-                    }}
-                    listener={(event, identifier) => {
-                      console.log("Event triggered:", event, identifier);
-                    }}
-                  />
-                </View>
-              ))}
-            </View> */}
-            {/* <View>
-              {content?.map((item, idx) => (
-                <ContentView
-                  key={idx}
-                  data={item}
-                  styleOverrides={{
-                    smallImageStyle: {
-                      container: {
-                        flexDirection: "row-reverse",
-                      },
-                    },
-                  }}
-                  listener={(event, identifier) => {
-                    console.log("Event triggered:", event, identifier);
-                  }}
-                />
-              ))}
-            </View>
             <View>
-              {content?.map((item, idx) => (
-                <ContentView
-                  key={idx}
-                  data={item}
-                  styleOverrides={{
-                    smallImageStyle: {
-                      buttonContainer: {
-                        justifyContent: "flex-start",
-                      },
-                    },
-                  }}
-                  listener={(event, identifier) => {
-                    console.log("Event triggered:", event, identifier);
-                  }}
-                />
-              ))}
-            </View> */}
-            <View>
-              {renderStyledText("Basic: all fields")}
+              {renderStyledText("[Basic] all fields")}
               <ContentView
                 key="1"
                 data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
-                cardHeight={100}
+                cardHeight={160}
                 listener={(event, identifier) => {
                   console.log("Event triggered:", event, identifier);
                 }}
               />
-              {renderStyledText("Custom theme")}
+              {renderStyledText("[dark/light]Custom theme")}
               <ThemeProvider
                 customThemes={{
                   light: {
                     colors: {
                       text_primary: "red",
-                      background: "lightgreen",
+                      background: "oldlace",
+                      button_text_color: "orange",
                     },
                   },
                   dark: {
                     colors: {
                       text_primary: "green",
                       background: "lightblue",
+                      button_text_color: "mediumorchid",
                     },
                   },
                 }}
               >
                 <ContentView
                   key="1"
+                  cardHeight={160}
                   data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
                   listener={(event, identifier) => {
                     console.log("Event triggered:", event, identifier);
@@ -314,21 +252,31 @@ const ContentCardView = () => {
                 />
               </ThemeProvider>
 
-              {renderStyledText("No dismiss button")}
+              {renderStyledText("[dismiss button] NO ")}
               <ContentView
                 key="11"
+                cardHeight={160}
                 data={SMALL_IMAGE_CONTENT_NO_DISMISS_BUTTON}
               />
-              {renderStyledText("Dismiss button (simple)")}
+              {renderStyledText("[dismiss button] Simple")}
               <ContentView
                 key="12"
+                cardHeight={160}
                 data={SMALL_IMAGE_CONTENT_DISMISS_BUTTON_SIMPLE}
               />
-              {renderStyledText("Invalid image")}
-              <ContentView key="2" data={SMALL_IMAGE_CONTENT_INVALID_IMAGE} />
-              {renderStyledText("image (darkUrl)")}
-              <ContentView key="3" data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL} />
-              {renderStyledText("title (2 lines), body (4 lines)")}
+              {renderStyledText("[image] Invalid")}
+              <ContentView
+                key="2"
+                cardHeight={150}
+                data={SMALL_IMAGE_CONTENT_INVALID_IMAGE}
+              />
+              {renderStyledText("[dark/light] darkUrl")}
+              <ContentView
+                key="3"
+                cardHeight={160}
+                data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+              />
+              {renderStyledText("[style]title (2 lines), body (4 lines)")}
               <ContentView
                 key="4"
                 data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
@@ -346,12 +294,19 @@ const ContentCardView = () => {
                   console.log("Event triggered:", event, identifier);
                 }}
               />
-              {renderStyledText("3 buttons")}
-              <ContentView key="5" data={SMALL_IMAGE_CONTENT_3_BUTTONS} />
-              {renderStyledText("height (150) title (1 line), body (1 line)")}
+              {renderStyledText("[button] 3")}
+              <ContentView
+                key="5"
+                cardHeight={160}
+                data={SMALL_IMAGE_CONTENT_3_BUTTONS}
+              />
+              {renderStyledText(
+                "[style] height (150) title (1 line), body (1 line)"
+              )}
               <View style={{ height: 150 }}>
                 <ContentView
                   key="6"
+                  cardHeight={200}
                   data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
                   styleOverrides={{
                     smallImageStyle: {
@@ -366,14 +321,15 @@ const ContentCardView = () => {
                 />
               </View>
               {renderStyledText("image width (50%)")}
-              <View style={{ height: 200 }}>
+              <View>
                 <ContentView
                   key="6"
+                  cardHeight={220}
                   data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
                   styleOverrides={{
                     smallImageStyle: {
                       title: {
-                        numberOfLines: 1,
+                        numberOfLines: 2,
                       },
                       body: {
                         numberOfLines: 4,
@@ -389,9 +345,10 @@ const ContentCardView = () => {
               {renderStyledText(
                 "No button, image width (40%), title (2 lines), body (6 lines), height (180)"
               )}
-              <View style={{ height: 180 }}>
+              <View>
                 <ContentView
                   key="7"
+                  cardHeight={160}
                   data={SMALL_IMAGE_CONTENT_NO_BUTTON}
                   styleOverrides={{
                     smallImageStyle: {
@@ -409,9 +366,10 @@ const ContentCardView = () => {
                 />
               </View>
               {renderStyledText("No button, image (right aligned)")}
-              <View style={{ height: 180 }}>
+              <View>
                 <ContentView
                   key="8"
+                  cardHeight={160}
                   data={SMALL_IMAGE_CONTENT_NO_BUTTON}
                   styleOverrides={{
                     smallImageStyle: {
@@ -439,8 +397,91 @@ const ContentCardView = () => {
 
         {selectedView === "LargeImage" && (
           <View>
-            {renderStyledText("basic")}
-            <ContentView key="1" data={LARGE_IMAGE_CONTENT_ALL_FIELDS} />
+            {renderStyledText("[basic] all fields")}
+            <ContentView
+              key="1"
+              cardHeight={200}
+              data={LARGE_IMAGE_CONTENT_ALL_FIELDS}
+            />
+            {renderStyledText("[button] 3")}
+            <ContentView
+              key="2"
+              cardHeight={200}
+              data={LARGE_IMAGE_CONTENT_3_BUTTONS}
+            />
+
+            {renderStyledText("[dismiss button] NO ")}
+            <ContentView
+              key="3"
+              cardHeight={200}
+              data={LARGE_IMAGE_CONTENT_NO_DISMISS_BUTTON}
+            />
+
+            {renderStyledText("[image] Invalid")}
+            <ContentView
+              key="4"
+              cardHeight={150}
+              data={LARGE_IMAGE_CONTENT_INVALID_IMAGE}
+            />
+            {renderStyledText("[dark/light] darkUrl")}
+            <ContentView
+              key="5"
+              cardHeight={160}
+              data={LARGE_IMAGE_CONTENT_DARK_URL}
+            />
+            {renderStyledText(
+              "[style]title (2 lines), body (2 lines), image (1:1)"
+            )}
+            <ContentView
+              key="6"
+              data={LARGE_IMAGE_CONTENT_LONG_TITLE}
+              styleOverrides={{
+                largeImageStyle: {
+                  title: {
+                    numberOfLines: 2,
+                  },
+                  body: {
+                    numberOfLines: 2,
+                  },
+                  image: {
+                    aspectRatio: 1 / 1,
+                  },
+                },
+              }}
+              listener={(event, identifier) => {
+                console.log("Event triggered:", event, identifier);
+              }}
+            />
+            {renderStyledText("[dark/light]Custom theme")}
+            <ThemeProvider
+              customThemes={{
+                light: {
+                  colors: {
+                    text_primary: "red",
+                    background: "oldlace",
+                    button_text_color: "orange",
+                  },
+                },
+                dark: {
+                  colors: {
+                    text_primary: "green",
+                    background: "lightblue",
+                    button_text_color: "mediumorchid",
+                  },
+                },
+              }}
+            >
+              <ContentView
+                key="7"
+                cardHeight={160}
+                data={LARGE_IMAGE_CONTENT_DARK_URL}
+                listener={(event, identifier) => {
+                  console.log("Event triggered:", event, identifier);
+                }}
+              />
+            </ThemeProvider>
+
+            <View style={{ height: 200 }} />
           </View>
         )}
 
@@ -572,7 +613,7 @@ const SMALL_IMAGE_CONTENT_INVALID_IMAGE: ContentTemplate = {
   smallImageData: {
     body: {
       content:
-        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+        "Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
     },
     title: {
       content: "Get Ready for the Basketball Season Kickoff!",
@@ -639,7 +680,7 @@ const SMALL_IMAGE_CONTENT_3_BUTTONS: ContentTemplate = {
   smallImageData: {
     body: {
       content:
-        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+        "Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
     },
     title: {
       content: "Get Ready for the Basketball Season Kickoff!",
@@ -650,7 +691,7 @@ const SMALL_IMAGE_CONTENT_3_BUTTONS: ContentTemplate = {
         id: "5b4d53f5-45bd-4e5c-a5cb-6e650b1993f6",
         actionUrl: "https://nba.com",
         text: {
-          content: "Buy",
+          content: "Buyyyyy",
         },
       },
       {
@@ -709,7 +750,8 @@ const LARGE_IMAGE_CONTENT_ALL_FIELDS: ContentTemplate = {
   largeImageData: {
     actionUrl: "https://cardaction.com",
     body: {
-      content: "This is large image body",
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
     },
     buttons: [
       {
@@ -724,7 +766,186 @@ const LARGE_IMAGE_CONTENT_ALL_FIELDS: ContentTemplate = {
     image: {
       alt: "",
       url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+      darkUrl: "",
+    },
+    dismissBtn: {
+      style: "simple",
+    },
+    title: {
+      content: "This is large image title",
+    },
+  },
+};
+
+const LARGE_IMAGE_CONTENT_NO_DISMISS_BUTTON: ContentTemplate = {
+  id: "large-image-all-fields",
+  type: TemplateType.LARGE_IMAGE,
+  largeImageData: {
+    actionUrl: "https://cardaction.com",
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    buttons: [
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        actionUrl: "https://buttonone.com/action",
+        interactId: "buttonOneClicked",
+        text: {
+          content: "ButtonTextOne",
+        },
+      },
+    ],
+    image: {
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+    },
+    dismissBtn: {
+      style: "none",
+    },
+    title: {
+      content: "This is large image title",
+    },
+  },
+};
+
+const LARGE_IMAGE_CONTENT_INVALID_IMAGE: ContentTemplate = {
+  id: "large-image-all-fields",
+  type: TemplateType.LARGE_IMAGE,
+  largeImageData: {
+    actionUrl: "https://cardaction.com",
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    buttons: [
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        actionUrl: "https://buttonone.com/action",
+        interactId: "buttonOneClicked",
+        text: {
+          content: "ButtonTextOne",
+        },
+      },
+    ],
+    image: {
+      alt: "",
+      url: "https://xxx",
       darkUrl: "https://imageurl.com/dark",
+    },
+    dismissBtn: {
+      style: "none",
+    },
+    title: {
+      content: "This is large image title",
+    },
+  },
+};
+
+const LARGE_IMAGE_CONTENT_DARK_URL: ContentTemplate = {
+  id: "large-image-all-fields",
+  type: TemplateType.LARGE_IMAGE,
+  largeImageData: {
+    actionUrl: "https://cardaction.com",
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    buttons: [
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        actionUrl: "https://buttonone.com/action",
+        interactId: "buttonOneClicked",
+        text: {
+          content: "ButtonTextOne",
+        },
+      },
+    ],
+    image: {
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+      darkUrl:
+        "https://hips.hearstapps.com/hmg-prod/images/golden-retriever-dog-royalty-free-image-505534037-1565105327.jpg?crop=0.760xw:1.00xh;0.204xw,0&resize=980:*",
+    },
+    dismissBtn: {
+      style: "none",
+    },
+    title: {
+      content: "This is large image title",
+    },
+  },
+};
+
+const LARGE_IMAGE_CONTENT_LONG_TITLE: ContentTemplate = {
+  id: "large-image-all-fields",
+  type: TemplateType.LARGE_IMAGE,
+  largeImageData: {
+    actionUrl: "https://cardaction.com",
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    buttons: [
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        actionUrl: "https://buttonone.com/action",
+        interactId: "buttonOneClicked",
+        text: {
+          content: "ButtonTextOne",
+        },
+      },
+    ],
+    image: {
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
+      darkUrl:
+        "https://hips.hearstapps.com/hmg-prod/images/golden-retriever-dog-royalty-free-image-505534037-1565105327.jpg?crop=0.760xw:1.00xh;0.204xw,0&resize=980:*",
+    },
+    dismissBtn: {
+      style: "none",
+    },
+    title: {
+      content:
+        "This is large image title, it's very long very long very long very long",
+    },
+  },
+};
+const LARGE_IMAGE_CONTENT_3_BUTTONS: ContentTemplate = {
+  id: "large-image-all-fields",
+  type: TemplateType.LARGE_IMAGE,
+  largeImageData: {
+    actionUrl: "https://cardaction.com",
+    body: {
+      content:
+        "🎟️ Tickets are on sale now! Don’t miss out on securing your seat to witness the high-flying action from the best players in the game",
+    },
+    buttons: [
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        actionUrl: "https://buttonone.com/action",
+        interactId: "buttonOneClicked_1",
+        text: {
+          content: "ButtonOne",
+        },
+      },
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        interactId: "buttonOneClicked_2",
+        text: {
+          content: "ButtonTwo",
+        },
+      },
+      {
+        id: "a41d1bff-2797-4958-a6d7-2b367e055795",
+        interactId: "buttonOneClicked_3",
+        text: {
+          content: "ButtonThreeeeeeeee",
+        },
+      },
+    ],
+    image: {
+      alt: "",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8gAa1wUx9Ox2M6cZNwUJe32xE-l_4oqPVA&s",
     },
     dismissBtn: {
       style: "simple",

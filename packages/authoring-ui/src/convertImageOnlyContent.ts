@@ -36,14 +36,13 @@ const styles: StyleObject = {
         width: '100%', // Ensure card takes full width
     },
     container: {
-        flexDirection: 'column', // Simple vertical layout for image only
+        flexDirection: 'column',
     },
     imageContainer: {
         backgroundColor: '#f0f0f0',
         borderRadius: 12,
         width: "100%", // Full width for the image
-        height: 200, // Full height for the image
-        // No fixed height - let image determine height with aspect ratio
+        height: 200,
     },
     image: {
         width: '100%',

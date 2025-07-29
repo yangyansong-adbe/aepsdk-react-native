@@ -33,10 +33,9 @@ const styles: StyleObject = {
         borderRadius: 12,
         overflow: 'hidden',
         margin: 15,
-        position: 'relative', // Added for dismiss button positioning
-        minHeight: 120, // Remove fixed height constraints
-        // maxHeight: 200,
-        width: '100%', // Ensure card takes full width
+        position: 'relative',
+        minHeight: 120,
+        width: '100%',
     },
     container: {
         flexDirection: 'row',
@@ -46,14 +45,14 @@ const styles: StyleObject = {
         borderTopLeftRadius: 12,
         borderBottomLeftRadius: 12,
         width: "35%",
-        height: "100%", // Fill the entire height
+        height: "100%",
         minHeight: 120,
     },
     image: {
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
-        minHeight: 120, // Ensure image has minimum height
+        minHeight: 120,
     },
     contentContainer: {
         flex: 1,
@@ -61,14 +60,13 @@ const styles: StyleObject = {
         paddingHorizontal: 16,
         // Use flex layout instead of space-between
         // justifyContent: 'space-between',
-        justifyContent: 'flex-start', // Changed to start arrangement from top
-        minHeight: 120, // Remove fixed height constraints
+        justifyContent: 'flex-start',
+        minHeight: 120,
     },
     textContent: {
         flex: 1,
         justifyContent: 'flex-start',
-        // Remove flex: 1, let text content naturally occupy space
-        marginBottom: 16, // Add fixed spacing with buttons
+        marginBottom: 16,
     },
     title: {
         fontSize: 16,
@@ -86,12 +84,12 @@ const styles: StyleObject = {
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-end',
         paddingTop: 8,
         minHeight: 36,
     },
     button: {
-        marginHorizontal: 10,
+        marginHorizontal: 8,
     }
 
 };
@@ -119,7 +117,7 @@ export function convertSmallImageContentToComponent(
     height?: number
 ): Component {
 
-    // let's add height to the sytleOverrides,
+    // let's add height to the sytleOverrides before merging the customer provided styles.
     styleOverrides = { ...styleOverrides, card: { ...styleOverrides?.card, maxHeight: height } };
 
     const mergedStyles = mergeStyles(styles, styleOverrides);

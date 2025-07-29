@@ -29,63 +29,58 @@ interface StyleObject extends LargeImageContentStyle {
 
 const styles: StyleObject = {
     card: {
-        backgroundColor: '#ffffff',
         borderRadius: 12,
         overflow: 'hidden',
         margin: 15,
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-        position: 'relative', // Added for dismiss button positioning
-        minHeight: 200, // Minimum height for the large card
-        width: '100%', // Ensure card takes full width
+        position: 'relative',
+        minHeight: 200,
+        width: '100%',
     },
     container: {
-        flexDirection: 'column', // Vertical layout for large image template
-        minHeight: 200, // Match card minHeight
+        flexDirection: 'column',
+        minHeight: 200,
     },
     imageContainer: {
-        backgroundColor: '#f0f0f0',
         borderTopLeftRadius: 12,
         borderTopRightRadius: 12,
-        width: "100%", // Full width for the image
-        height: 150, // Fixed height for the image section
+        width: "100%",
     },
     image: {
         width: '100%',
-        height: '100%',
+        aspectRatio: 16 / 9,
         resizeMode: 'cover',
     },
     contentContainer: {
         flex: 1,
         padding: 16,
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
+        minHeight: 100,
     },
     textContent: {
         flex: 1,
         justifyContent: 'flex-start',
-        marginBottom: 12,
+        marginBottom: 16,
     },
     title: {
-        fontSize: 18, // Slightly larger for large image template
+        fontSize: 16,
         fontWeight: '600',
         color: '#000000',
         marginBottom: 8,
-        numberOfLines: 2, // Allow more lines for large template
+        numberOfLines: 1,
         adjustsFontSizeToFit: true,
     },
     body: {
         fontSize: 14,
-        color: '#666666',
-        lineHeight: 20,
-        numberOfLines: 4, // Allow more lines for large template
+        lineHeight: 18,
+        numberOfLines: 3,
         adjustsFontSizeToFit: true,
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-evenly', // Evenly space up to 3 buttons
         alignItems: 'center',
+        paddingTop: 8,
+        minHeight: 36,
     },
 };
 

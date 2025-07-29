@@ -23,6 +23,7 @@ import { ContentViewEvent } from "./ContentViewEvent";
 import { Component, ComponentTextStyle, ButtonStyle } from "./Component";
 import { ViewStyle, ImageStyle } from "react-native";
 import { useTheme } from "./ThemeProvider";
+import { Theme } from "./Theme";
 
 /**
  * Renders a dismiss button component with appropriate styling based on dismiss type.
@@ -100,7 +101,7 @@ const renderDismissButton = (
  */
 const renderViewComponent = (
   component: Component,
-  theme: any,
+  theme: Theme,
   colorScheme: "light" | "dark",
   onEvent?: (interactId: string, eventName: ContentViewEvent) => void
 ): React.ReactElement => {
@@ -126,9 +127,7 @@ const renderViewComponent = (
  */
 const renderTextComponent = (
   component: Component,
-  theme: any,
-  colorScheme: "light" | "dark",
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  theme: Theme
 ): React.ReactElement => {
   const style = { ...component.style };
   const textStyle = {
@@ -156,9 +155,7 @@ const renderTextComponent = (
  */
 const renderTitleComponent = (
   component: Component,
-  theme: any,
-  colorScheme: "light" | "dark",
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  theme: Theme
 ): React.ReactElement => {
   const style = { ...component.style };
   const titleStyle = {
@@ -186,9 +183,7 @@ const renderTitleComponent = (
  */
 const renderBodyComponent = (
   component: Component,
-  theme: any,
-  colorScheme: "light" | "dark",
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  theme: Theme
 ): React.ReactElement => {
   const style = { ...component.style };
   const bodyStyle = {
@@ -216,21 +211,14 @@ const renderBodyComponent = (
  */
 const renderImageComponent = (
   component: Component,
-  theme: any,
-  colorScheme: "light" | "dark",
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  theme: Theme,
+  colorScheme: "light" | "dark"
 ): React.ReactElement => {
   const style = { ...component.style };
   const { interactId } = component;
 
-  const handlePress = (eventName: ContentViewEvent) => {
-    if (interactId && onEvent) {
-      onEvent(interactId, eventName);
-    }
-  };
-
   const imageUrl =
-    component.darkUrl && colorScheme === "dark"
+    component.darkUrl && component.darkUrl !== "" && colorScheme === "dark"
       ? component.darkUrl
       : component.url;
 
@@ -240,7 +228,7 @@ const renderImageComponent = (
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress("press")}>
+    <TouchableOpacity activeOpacity={0.7}>
       <Image style={imageStyle} source={{ uri: imageUrl }} />
     </TouchableOpacity>
   );
@@ -251,21 +239,16 @@ const renderImageComponent = (
  */
 const renderButtonComponent = (
   component: Component,
-  theme: any,
-  colorScheme: "light" | "dark",
+  theme: Theme,
   onEvent?: (interactId: string, eventName: ContentViewEvent) => void
 ): React.ReactElement => {
   const style = { ...component.style };
   const { interactId } = component;
 
-  const handlePress = (eventName: ContentViewEvent) => {
-    if (interactId && onEvent) {
-      onEvent(interactId, eventName);
-    }
-  };
-
   const handleButtonPress = async () => {
-    handlePress("clickButton");
+    if (interactId && onEvent) {
+      onEvent(interactId, "clickButton");
+    }
     if (component.actionUrl) {
       try {
         await Linking.openURL(component.actionUrl);
@@ -280,7 +263,7 @@ const renderButtonComponent = (
     <View style={style as ButtonStyle}>
       <Button
         title={component.content || ""}
-        // color={theme.colors.primary}
+        color={theme.colors.button_text_color}
         onPress={handleButtonPress}
       />
     </View>
@@ -292,7 +275,7 @@ const renderButtonComponent = (
  */
 const renderDismissButtonComponent = (
   component: Component,
-  theme: any,
+  theme: Theme,
   colorScheme: "light" | "dark",
   onEvent?: (interactId: string, eventName: ContentViewEvent) => void
 ): React.ReactElement | null => {
@@ -321,7 +304,7 @@ const renderDismissButtonComponent = (
  */
 const renderComponent = (
   component: Component,
-  theme: any,
+  theme: Theme,
   colorScheme: "light" | "dark",
   onEvent?: (interactId: string, eventName: ContentViewEvent) => void
 ): React.ReactElement | null => {
@@ -330,19 +313,19 @@ const renderComponent = (
       return renderViewComponent(component, theme, colorScheme, onEvent);
 
     case "text":
-      return renderTextComponent(component, theme, colorScheme, onEvent);
+      return renderTextComponent(component, theme);
 
     case "title":
-      return renderTitleComponent(component, theme, colorScheme, onEvent);
+      return renderTitleComponent(component, theme);
 
     case "body":
-      return renderBodyComponent(component, theme, colorScheme, onEvent);
+      return renderBodyComponent(component, theme);
 
     case "image":
-      return renderImageComponent(component, theme, colorScheme, onEvent);
+      return renderImageComponent(component, theme, colorScheme);
 
     case "button":
-      return renderButtonComponent(component, theme, colorScheme, onEvent);
+      return renderButtonComponent(component, theme, onEvent);
 
     case "dismissButton":
       return renderDismissButtonComponent(
@@ -357,13 +340,20 @@ const renderComponent = (
   }
 };
 
-// ContentView now accepts onEvent and passes it to renderComponent
+/**
+ * Renders a content view component.
+ *
+ * @param component - The component to render.
+ * @param onEvent - The event handler function. If provided,
+ * it will be called when the component is interacted with the components that have interactId.
+ * @returns The rendered component.
+ */
 export const ContentView = ({
-  obj,
+  component,
   onEvent,
 }: {
-  obj: Component;
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void;
+  component: Component;
+  onEvent?: (eventName: ContentViewEvent, interactId?: string) => void;
 }) => {
   // Call hooks at the top level of the React component
   const { theme } = useTheme();
@@ -371,8 +361,8 @@ export const ContentView = ({
 
   // Memoize the rendered component for performance
   const renderedComponent = useMemo(() => {
-    return renderComponent(obj, theme, colorScheme, onEvent);
-  }, [obj, theme, colorScheme, onEvent]);
+    return renderComponent(component, theme, colorScheme, onEvent);
+  }, [component, theme, colorScheme, onEvent]);
 
   return renderedComponent;
 };

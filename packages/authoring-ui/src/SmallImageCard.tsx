@@ -40,5 +40,5 @@ export const SmallImageContent: React.FC<SmallImageContentProps> = (
     styleOverrides,
     height
   );
-  return <ContentView obj={component} onEvent={listener} />;
+  return <ContentView component={component} onEvent={listener} />;
 };
