@@ -16,16 +16,19 @@ export type ComponentType = 'view' | 'text' | 'title' | 'body' | 'image' | 'butt
 // Union type for all possible component styles
 export type ComponentStyle = ViewStyle | ComponentTextStyle | ImageStyle;
 
+// Text style with additional properties
 export type ComponentTextStyle = TextStyle & {
     numberOfLines?: number;
     adjustsFontSizeToFit?: boolean;
 }
 
+// Button style with additional properties
 export interface ButtonStyle {
     color?: string;
     marginHorizontal?: number;
 }
 
+// Component interface the represents the content card data and its style
 export interface Component {
     type: ComponentType;
     style?: ComponentStyle;

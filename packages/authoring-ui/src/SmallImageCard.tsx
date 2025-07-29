@@ -20,6 +20,7 @@ import { ContentViewEvent } from "./common/ContentViewEvent";
 
 export interface SmallImageContentProps {
   data: SmallImageContentData;
+  height?: number;
   styleOverrides?: SmallImageContentStyle;
   listener?: (interactId: string, eventName: ContentViewEvent) => void;
 }
@@ -33,7 +34,11 @@ export interface SmallImageContentProps {
 export const SmallImageContent: React.FC<SmallImageContentProps> = (
   props: SmallImageContentProps
 ) => {
-  const { data, styleOverrides, listener } = props;
-  const component = convertSmallImageContentToComponent(data, styleOverrides);
+  const { data, height, styleOverrides, listener } = props;
+  const component = convertSmallImageContentToComponent(
+    data,
+    styleOverrides,
+    height
+  );
   return <ContentView obj={component} onEvent={listener} />;
 };

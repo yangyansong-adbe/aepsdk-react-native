@@ -30,65 +30,65 @@ interface StyleObject extends SmallImageContentStyle {
 
 const styles: StyleObject = {
     card: {
-        // backgroundColor: '#ffffff',
         borderRadius: 12,
         overflow: 'hidden',
         margin: 15,
-        // shadowColor: '#000',
-        // shadowOpacity: 0.1,
-        // shadowRadius: 4,
-        // elevation: 3,
         position: 'relative', // Added for dismiss button positioning
-        minHeight: 120, // Add minimum height for the card
-        maxHeight: 200,
+        minHeight: 120, // Remove fixed height constraints
+        // maxHeight: 200,
         width: '100%', // Ensure card takes full width
     },
     container: {
         flexDirection: 'row',
-        minHeight: 120, // Match card minHeight
+        minHeight: 120,
     },
     imageContainer: {
-        // backgroundColor: '#f0f0f0',
         borderTopLeftRadius: 12,
         borderBottomLeftRadius: 12,
         width: "35%",
         height: "100%", // Fill the entire height
+        minHeight: 120,
     },
     image: {
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
+        minHeight: 120, // Ensure image has minimum height
     },
     contentContainer: {
         flex: 1,
-        padding: 16,
-        justifyContent: 'space-between',
-        minHeight: 120, // Match card minHeight
+        paddingVertical: 16,
+        paddingHorizontal: 16,
+        // Use flex layout instead of space-between
+        // justifyContent: 'space-between',
+        justifyContent: 'flex-start', // Changed to start arrangement from top
+        minHeight: 120, // Remove fixed height constraints
     },
     textContent: {
         flex: 1,
         justifyContent: 'flex-start',
+        // Remove flex: 1, let text content naturally occupy space
+        marginBottom: 16, // Add fixed spacing with buttons
     },
     title: {
         fontSize: 16,
         fontWeight: '600',
-        // color: '#000000',
         marginBottom: 8,
+        marginRight: 16,
         numberOfLines: 1,
         adjustsFontSizeToFit: true,
     },
     body: {
         fontSize: 14,
-        // color: '#666666',
         lineHeight: 18,
         numberOfLines: 3,
         adjustsFontSizeToFit: true,
     },
     buttonContainer: {
         flexDirection: 'row',
-        // gap: 8,
-        justifyContent: 'flex-end', // Changed from 'flex-start' to 'flex-end' for right alignment
-        marginTop: 12,
+        justifyContent: 'flex-start',
+        paddingTop: 8,
+        minHeight: 36,
     },
     button: {
         marginHorizontal: 10,
@@ -115,8 +115,13 @@ function mergeStyles(defaultStyles: StyleObject, overrides?: SmallImageContentSt
 
 export function convertSmallImageContentToComponent(
     data: SmallImageContentData,
-    styleOverrides?: SmallImageContentStyle
+    styleOverrides?: SmallImageContentStyle,
+    height?: number
 ): Component {
+
+    // let's add height to the sytleOverrides,
+    styleOverrides = { ...styleOverrides, card: { ...styleOverrides?.card, maxHeight: height } };
+
     const mergedStyles = mergeStyles(styles, styleOverrides);
 
     const children: Component[] = [

@@ -25,6 +25,7 @@ import { ContentViewEvent } from "@adobe/react-native-aepui";
 
 export interface ContentViewProps {
   data: ContentTemplate;
+  cardHeight?: number;
   styleOverrides?: {
     smallImageStyle?: SmallImageContentStyle;
     largeImageStyle?: LargeImageContentStyle;
@@ -38,6 +39,7 @@ export interface ContentViewProps {
 
 export const ContentView: React.FC<ContentViewProps> = ({
   data,
+  cardHeight = 200,
   styleOverrides,
   listener,
 }) => {
@@ -92,6 +94,7 @@ export const ContentView: React.FC<ContentViewProps> = ({
       return (
         <SmallImageContent
           data={data.smallImageData}
+          height={cardHeight}
           styleOverrides={styleOverrides?.smallImageStyle}
           listener={defaultListener}
         />
