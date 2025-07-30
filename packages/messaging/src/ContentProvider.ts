@@ -25,7 +25,6 @@ export enum TemplateType {
     IMAGE_ONLY = "ImageOnly"
 }
 
-
 export interface ContentTemplate {
     readonly id: string; // content card id
     readonly type: TemplateType;

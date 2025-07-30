@@ -218,6 +218,7 @@ const ContentCardView = () => {
       <ScrollView contentContainerStyle={{ marginRight: 20 }}>
         {selectedView === "SmallImage" && (
           <View>
+            {renderStyledText("[Remote] cards")}
             {content &&
               content.map((item) => (
                 <ContentView
@@ -236,72 +237,118 @@ const ContentCardView = () => {
                   }}
                 />
               ))}
-            <View>
-              {renderStyledText("[Basic] all fields")}
+
+            {renderStyledText("[Basic] all fields")}
+            <ContentView
+              key="1"
+              data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
+              cardHeight={160}
+              listener={(event, identifier) => {
+                console.log("Event triggered:", event, identifier);
+              }}
+            />
+            {renderStyledText("[dark/light]Custom theme")}
+            <ThemeProvider
+              customThemes={{
+                light: {
+                  colors: {
+                    text_primary: "red",
+                    background: "oldlace",
+                    button_text_color: "orange",
+                  },
+                },
+                dark: {
+                  colors: {
+                    text_primary: "green",
+                    background: "lightblue",
+                    button_text_color: "mediumorchid",
+                  },
+                },
+              }}
+            >
               <ContentView
                 key="1"
-                data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
                 cardHeight={160}
+                data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
                 listener={(event, identifier) => {
                   console.log("Event triggered:", event, identifier);
                 }}
               />
-              {renderStyledText("[dark/light]Custom theme")}
-              <ThemeProvider
-                customThemes={{
-                  light: {
-                    colors: {
-                      text_primary: "red",
-                      background: "oldlace",
-                      button_text_color: "orange",
-                    },
+            </ThemeProvider>
+
+            {renderStyledText("[dismiss button] NO ")}
+            <ContentView
+              key="11"
+              cardHeight={160}
+              data={SMALL_IMAGE_CONTENT_NO_DISMISS_BUTTON}
+            />
+            {renderStyledText("[dismiss button] Simple")}
+            <ContentView
+              key="12"
+              cardHeight={160}
+              data={SMALL_IMAGE_CONTENT_DISMISS_BUTTON_SIMPLE}
+            />
+            {renderStyledText("[image] Invalid")}
+            <ContentView
+              key="2"
+              cardHeight={150}
+              data={SMALL_IMAGE_CONTENT_INVALID_IMAGE}
+            />
+            {renderStyledText("[dark/light] darkUrl")}
+            <ContentView
+              key="3"
+              cardHeight={160}
+              data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+            />
+            {renderStyledText("[style]title (2 lines), body (4 lines)")}
+            <ContentView
+              key="4"
+              data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+              styleOverrides={{
+                smallImageStyle: {
+                  title: {
+                    numberOfLines: 2,
                   },
-                  dark: {
-                    colors: {
-                      text_primary: "green",
-                      background: "lightblue",
-                      button_text_color: "mediumorchid",
+                  body: {
+                    numberOfLines: 4,
+                  },
+                },
+              }}
+              listener={(event, identifier) => {
+                console.log("Event triggered:", event, identifier);
+              }}
+            />
+            {renderStyledText("[button] 3")}
+            <ContentView
+              key="5"
+              cardHeight={160}
+              data={SMALL_IMAGE_CONTENT_3_BUTTONS}
+            />
+            {renderStyledText(
+              "[style] height (150) title (1 line), body (1 line)"
+            )}
+            <View style={{ height: 150 }}>
+              <ContentView
+                key="6"
+                cardHeight={200}
+                data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
+                styleOverrides={{
+                  smallImageStyle: {
+                    title: {
+                      numberOfLines: 1,
+                    },
+                    body: {
+                      numberOfLines: 1,
                     },
                   },
                 }}
-              >
-                <ContentView
-                  key="1"
-                  cardHeight={160}
-                  data={SMALL_IMAGE_CONTENT_ALL_FIELDS}
-                  listener={(event, identifier) => {
-                    console.log("Event triggered:", event, identifier);
-                  }}
-                />
-              </ThemeProvider>
-
-              {renderStyledText("[dismiss button] NO ")}
-              <ContentView
-                key="11"
-                cardHeight={160}
-                data={SMALL_IMAGE_CONTENT_NO_DISMISS_BUTTON}
               />
-              {renderStyledText("[dismiss button] Simple")}
+            </View>
+            {renderStyledText("image width (50%)")}
+            <View>
               <ContentView
-                key="12"
-                cardHeight={160}
-                data={SMALL_IMAGE_CONTENT_DISMISS_BUTTON_SIMPLE}
-              />
-              {renderStyledText("[image] Invalid")}
-              <ContentView
-                key="2"
-                cardHeight={150}
-                data={SMALL_IMAGE_CONTENT_INVALID_IMAGE}
-              />
-              {renderStyledText("[dark/light] darkUrl")}
-              <ContentView
-                key="3"
-                cardHeight={160}
-                data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
-              />
-              {renderStyledText("[style]title (2 lines), body (4 lines)")}
-              <ContentView
-                key="4"
+                key="6"
+                cardHeight={220}
                 data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
                 styleOverrides={{
                   smallImageStyle: {
@@ -311,110 +358,63 @@ const ContentCardView = () => {
                     body: {
                       numberOfLines: 4,
                     },
+                    imageContainer: {
+                      width: "50%",
+                    },
                   },
                 }}
-                listener={(event, identifier) => {
-                  console.log("Event triggered:", event, identifier);
+              />
+            </View>
+
+            {renderStyledText(
+              "No button, image width (40%), title (2 lines), body (6 lines), height (180)"
+            )}
+            <View>
+              <ContentView
+                key="7"
+                cardHeight={160}
+                data={SMALL_IMAGE_CONTENT_NO_BUTTON}
+                styleOverrides={{
+                  smallImageStyle: {
+                    title: {
+                      numberOfLines: 2,
+                    },
+                    body: {
+                      numberOfLines: 6,
+                    },
+                    imageContainer: {
+                      width: "40%",
+                    },
+                  },
                 }}
               />
-              {renderStyledText("[button] 3")}
-              <ContentView
-                key="5"
-                cardHeight={160}
-                data={SMALL_IMAGE_CONTENT_3_BUTTONS}
-              />
-              {renderStyledText(
-                "[style] height (150) title (1 line), body (1 line)"
-              )}
-              <View style={{ height: 150 }}>
-                <ContentView
-                  key="6"
-                  cardHeight={200}
-                  data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
-                  styleOverrides={{
-                    smallImageStyle: {
-                      title: {
-                        numberOfLines: 1,
-                      },
-                      body: {
-                        numberOfLines: 1,
-                      },
-                    },
-                  }}
-                />
-              </View>
-              {renderStyledText("image width (50%)")}
-              <View>
-                <ContentView
-                  key="6"
-                  cardHeight={220}
-                  data={SMALL_IMAGE_CONTENT_IMAGE_DARK_URL}
-                  styleOverrides={{
-                    smallImageStyle: {
-                      title: {
-                        numberOfLines: 2,
-                      },
-                      body: {
-                        numberOfLines: 4,
-                      },
-                      imageContainer: {
-                        width: "50%",
-                      },
-                    },
-                  }}
-                />
-              </View>
-
-              {renderStyledText(
-                "No button, image width (40%), title (2 lines), body (6 lines), height (180)"
-              )}
-              <View>
-                <ContentView
-                  key="7"
-                  cardHeight={160}
-                  data={SMALL_IMAGE_CONTENT_NO_BUTTON}
-                  styleOverrides={{
-                    smallImageStyle: {
-                      title: {
-                        numberOfLines: 2,
-                      },
-                      body: {
-                        numberOfLines: 6,
-                      },
-                      imageContainer: {
-                        width: "40%",
-                      },
-                    },
-                  }}
-                />
-              </View>
-              {renderStyledText("No button, image (right aligned)")}
-              <View>
-                <ContentView
-                  key="8"
-                  cardHeight={160}
-                  data={SMALL_IMAGE_CONTENT_NO_BUTTON}
-                  styleOverrides={{
-                    smallImageStyle: {
-                      title: {
-                        numberOfLines: 2,
-                      },
-                      body: {
-                        numberOfLines: 6,
-                      },
-                      container: {
-                        flexDirection: "row-reverse",
-                      },
-                      imageContainer: {
-                        width: "40%",
-                      },
-                    },
-                  }}
-                />
-              </View>
-
-              <View style={{ height: 200 }} />
             </View>
+            {renderStyledText("No button, image (right aligned)")}
+            <View>
+              <ContentView
+                key="8"
+                cardHeight={160}
+                data={SMALL_IMAGE_CONTENT_NO_BUTTON}
+                styleOverrides={{
+                  smallImageStyle: {
+                    title: {
+                      numberOfLines: 2,
+                    },
+                    body: {
+                      numberOfLines: 6,
+                    },
+                    container: {
+                      flexDirection: "row-reverse",
+                    },
+                    imageContainer: {
+                      width: "40%",
+                    },
+                  },
+                }}
+              />
+            </View>
+
+            <View style={{ height: 200 }} />
           </View>
         )}
 

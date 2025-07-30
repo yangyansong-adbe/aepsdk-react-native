@@ -188,6 +188,7 @@ export function convertSmallImageContentToComponent(
     return {
         type: 'view',
         style: mergedStyles.card,
+        actionUrl: data.actionUrl || "",
         children,
     };
 } 

@@ -253,7 +253,6 @@ const renderButtonComponent = (
       try {
         await Linking.openURL(component.actionUrl);
       } catch (error) {
-        // TODO: add a utility function to handle SDK logs.
         console.warn(`Failed to open URL: ${component.actionUrl}`, error);
       }
     }
@@ -361,7 +360,19 @@ export const ContentView = ({
 
   // Memoize the rendered component for performance
   const renderedComponent = useMemo(() => {
-    return renderComponent(component, theme, colorScheme, onEvent);
+    return (
+      <View
+        onTouchStart={() => {
+          if (component.actionUrl && component.actionUrl !== "") {
+            Linking.openURL(component.actionUrl).catch((error) => {
+              console.warn(`Failed to open URL: ${component.actionUrl}`, error);
+            });
+          }
+        }}
+      >
+        {renderComponent(component, theme, colorScheme, onEvent)}
+      </View>
+    );
   }, [component, theme, colorScheme, onEvent]);
 
   return renderedComponent;
