@@ -32,6 +32,8 @@ import {
   Themes,
 } from "@adobe/react-native-aepmessaging";
 import { useColorScheme } from "../hooks/useColorScheme";
+import { Messaging } from "@adobe/react-native-aepmessaging";
+import { MobileCore } from "@adobe/react-native-aepcore";
 
 const ContentCardView = () => {
   const [content, setContent] = useState<ContentTemplate[] | null>(null);
@@ -64,16 +66,19 @@ const ContentCardView = () => {
   };
 
   useEffect(() => {
-    // Messaging.updatePropositionsForSurfaces(['someSurface']);
+    Messaging.updatePropositionsForSurfaces(["rn/ios/small_image"]);
     // Note:
     // - Call above to update the propositions and cache the content locally
     // - Customers may call this function when launching the app
-
+    // MobileCore.trackAction("xyz");
     // const provider = new ContentProvider("card/ms");
-    const provider = new ContentProvider("cardstab");
+    const provider = new ContentProvider("rn/ios/small_image");
     provider
       .getContent()
-      .then(setContent)
+      .then((content) => {
+        console.log(content);
+        setContent(content);
+      })
       .catch((err) => console.error(err.message))
       .finally(() => console.log("Content loaded"));
   }, []);
@@ -213,6 +218,24 @@ const ContentCardView = () => {
       <ScrollView contentContainerStyle={{ marginRight: 20 }}>
         {selectedView === "SmallImage" && (
           <View>
+            {content &&
+              content.map((item) => (
+                <ContentView
+                  key={item.id}
+                  data={item}
+                  cardHeight={210}
+                  styleOverrides={{
+                    smallImageStyle: {
+                      title: {
+                        numberOfLines: 2,
+                      },
+                      body: {
+                        numberOfLines: 4,
+                      },
+                    },
+                  }}
+                />
+              ))}
             <View>
               {renderStyledText("[Basic] all fields")}
               <ContentView

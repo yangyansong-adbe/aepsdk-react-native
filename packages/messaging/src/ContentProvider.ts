@@ -62,7 +62,7 @@ export class ContentProvider {
         console.log(this.surface);
 
         const messages = await Messaging.getPropositionsForSurfaces([this.surface]);
-        console.log(messages);
+        console.log(JSON.stringify(messages));
         const propositions = messages[this.surface];
         if (!propositions) {
             return [];

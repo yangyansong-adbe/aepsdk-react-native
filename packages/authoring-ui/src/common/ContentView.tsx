@@ -103,7 +103,7 @@ const renderViewComponent = (
   component: Component,
   theme: Theme,
   colorScheme: "light" | "dark",
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  onEvent?: (eventName: ContentViewEvent, interactId?: string) => void
 ): React.ReactElement => {
   const style = { ...component.style };
   const viewStyle = {
@@ -240,14 +240,14 @@ const renderImageComponent = (
 const renderButtonComponent = (
   component: Component,
   theme: Theme,
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  onEvent?: (eventName: ContentViewEvent, interactId?: string) => void
 ): React.ReactElement => {
   const style = { ...component.style };
   const { interactId } = component;
 
   const handleButtonPress = async () => {
     if (interactId && onEvent) {
-      onEvent(interactId, "clickButton");
+      onEvent("clickButton", interactId);
     }
     if (component.actionUrl) {
       try {
@@ -277,13 +277,13 @@ const renderDismissButtonComponent = (
   component: Component,
   theme: Theme,
   colorScheme: "light" | "dark",
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  onEvent?: (eventName: ContentViewEvent, interactId?: string) => void
 ): React.ReactElement | null => {
   const { interactId } = component;
 
   const handlePress = (eventName: ContentViewEvent) => {
     if (interactId && onEvent) {
-      onEvent(interactId, eventName);
+      onEvent(eventName, interactId);
     }
   };
 
@@ -306,7 +306,7 @@ const renderComponent = (
   component: Component,
   theme: Theme,
   colorScheme: "light" | "dark",
-  onEvent?: (interactId: string, eventName: ContentViewEvent) => void
+  onEvent?: (eventName: ContentViewEvent, interactId?: string) => void
 ): React.ReactElement | null => {
   switch (component.type) {
     case "view":

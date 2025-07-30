@@ -84,7 +84,7 @@ const styles: StyleObject = {
     },
     buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-start',
         paddingTop: 8,
         minHeight: 36,
     },
